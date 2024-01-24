@@ -23,13 +23,20 @@ export const TextAnnotator = <E extends unknown>(props: TextAnnotatorProps<E>) =
 
   const { anno, setAnno } = useContext(AnnotoriousContext);
 
+  /**
+   * TODO REMOVE THIS HACK
+   * Needed only until the `destroy` method will get implemented for the `TextAnnotator`!
+   */
+  const isAnnoCreationRequested = useRef(false);
+
   useEffect(() => {
-    if (setAnno) {
-      const anno = createTextAnnotator(el.current, opts);
-      anno.setStyle(props.style);
-      setAnno(anno);
+    if (setAnno && !anno && !isAnnoCreationRequested.current) {
+      isAnnoCreationRequested.current = true;
+      const textAnno = createTextAnnotator(el.current, opts);
+      textAnno.setStyle(props.style);
+      setAnno(textAnno);
     }
-  }, [setAnno]);
+  }, [anno, setAnno]);
 
   useEffect(() => {
     if (!anno)
