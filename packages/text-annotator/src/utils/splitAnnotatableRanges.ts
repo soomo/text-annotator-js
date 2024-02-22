@@ -11,7 +11,7 @@ const isRangeAnnotatable = (range: Range): boolean => {
 
 const iterateNotAnnotatableElements = function*(range: Range): Generator<HTMLElement> {
   const notAnnotatableIterator = document.createNodeIterator(
-    range.commonAncestorContainer,
+    range.cloneContents(),
     NodeFilter.SHOW_ELEMENT,
     (node) =>
       node instanceof HTMLElement && node.classList.contains(NOT_ANNOTATABLE_CLASS) && range.intersectsNode(node)
