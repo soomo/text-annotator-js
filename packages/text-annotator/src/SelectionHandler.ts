@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { TextAnnotatorState } from './state';
 import type { TextAnnotationTarget } from './model';
 import { debounce, splitAnnotatableRanges, rangeToSelector, trimRange, NOT_ANNOTATABLE_SELECTOR } from './utils';
+import { isWhitespaceOrEmpty } from './utils/isWhitespaceOrEmpty';
 
 export const SelectionHandler = (
   container: HTMLElement,
@@ -54,6 +55,8 @@ export const SelectionHandler = (
     if (sel.isCollapsed || !isLeftClick || !currentTarget) return;
 
     const selectionRange = sel.getRangeAt(0);
+    if (isWhitespaceOrEmpty(selectionRange)) return;
+
     const annotatableRanges = splitAnnotatableRanges(selectionRange.cloneRange());
 
     const hasChanged =
