@@ -15,13 +15,15 @@ export interface TextAnnotatorProps<E extends unknown> extends Omit<TextAnnotato
 
   style?: HighlightStyleExpression;
 
+  className?: string;
+
 }
 
 export const TextAnnotator = <E extends unknown>(props: TextAnnotatorProps<E>) => {
 
   const el = useRef<HTMLDivElement>(null);
 
-  const { children, ...opts } = props;
+  const { className, children, ...opts } = props;
 
   const { anno, setAnno } = useContext(AnnotoriousContext);
 
@@ -49,7 +51,7 @@ export const TextAnnotator = <E extends unknown>(props: TextAnnotatorProps<E>) =
   }, [anno, props.filter]);
 
   return (
-    <div ref={el}>
+    <div ref={el} className={className}>
       {children}
     </div>
   )
