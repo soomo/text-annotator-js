@@ -35,7 +35,7 @@
     "vite-tsconfig-paths": "^4.3.1"
   },
   "peerDependencies": {
-    "@annotorious/react": "^3.0.0-rc.19",
+    "@annotorious/react": "https://gitpkg.now.sh/soomo/annotorious/packages/annotorious-react?staging&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build",
     "react": "16.8.0 || >=17.x || >=18.x",
     "react-dom": "16.8.0 || >=17.x || >=18.x"
   },
