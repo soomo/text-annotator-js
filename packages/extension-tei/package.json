@@ -32,6 +32,6 @@
     "vite-plugin-dts": "^3.7.2"
   },
   "dependencies": {
-    "@annotorious/core": "^3.0.0-rc.19"
+    "@annotorious/core": "https://gitpkg.now.sh/soomo/annotorious/packages/annotorious-core?staging&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build"
   }
 }
