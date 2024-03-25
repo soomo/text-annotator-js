@@ -42,7 +42,7 @@
     "@annotorious/core": "^3.0.0-rc.21",
     "@annotorious/react": "^3.0.0-rc.21",
     "@neodrag/react": "^2.0.3",
-    "@recogito/text-annotator": "https://gitpkg.now.sh/soomo/text-annotator-js/packages/text-annotator?staging&scripts.preinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build&scripts.postinstall=ls%20-la%20node_modules%20%26%26%20rm%20-rf%20node_modules%2F",
+    "@recogito/text-annotator": "https://gitpkg.now.sh/soomo/text-annotator-js/packages/text-annotator?staging&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build%20%26%26%20rm%20-rf%20node_modules%2F",
     "@recogito/text-annotator-tei": "^3.0.0-rc.18",
     "CETEIcean": "^1.9.2"
   }
