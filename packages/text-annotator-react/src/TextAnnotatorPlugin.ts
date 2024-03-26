@@ -1,5 +1,5 @@
 import { AnnotatorPlugin, AnnotoriousPlugin } from '@annotorious/react';
-import type { TextAnnotation } from '@recogito/text-annotator';
+import type { TextAnnotator } from '@recogito/text-annotator';
 
-export type TextAnnotatorPlugin<T extends unknown = TextAnnotation> = AnnotatorPlugin<T>;
+export type TextAnnotatorPlugin<T extends unknown = TextAnnotator> = AnnotatorPlugin<T>;
 export { AnnotoriousPlugin as TextAnnotatorPlugin }

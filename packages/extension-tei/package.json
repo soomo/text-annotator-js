@@ -30,8 +30,8 @@
     "@recogito/text-annotator": "https://gitpkg.now.sh/soomo/text-annotator-js/packages/text-annotator?staging&scripts.postinstall=npm%20install%20--ignore-scripts%20%26%26%20npm%20run%20build%20%26%26%20rm%20-rf%20node_modules%2F",
     "CETEIcean": "^1.9.2",
     "typescript": "^5.3.3",
-    "vite": "^5.1.3",
-    "vite-plugin-dts": "^3.7.2"
+    "vite": "^5.2.6",
+    "vite-plugin-dts": "^3.7.3"
   },
   "peerDependencies": {
     "@annotorious/core": "^3.0.0-rc.21",
