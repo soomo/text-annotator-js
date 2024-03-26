@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { AnnotationBody, Annotorious, useAnnotationStore, useAnnotator } from '@annotorious/react';
 import { TextAnnotator, TextAnnotatorPopup, TextAnnotatorPopupProps } from '../src';
-import { TextAnnotation, TextAnnotator as RecogitoTextAnnotator, W3CTextFormat } from '@recogito/text-annotator';
+import { TextAnnotation, TextAnnotator as RecogitoTextAnnotator, W3CTextFormat } from '@soomo/text-annotator';
 
 const TestPopup = (props: TextAnnotatorPopupProps) => {
 

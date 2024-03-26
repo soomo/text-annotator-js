@@ -1,6 +1,6 @@
 {
   "name": "@soomo/text-annotator",
-  "version": "3.0.0-staging.0",
+  "version": "3.0.0-staging.1",
   "description": "A JavaScript text annotation library",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -9,8 +9,7 @@
     "start": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "vitest",
-    "prepare": "npm run build"
+    "test": "vitest"
   },
   "main": "./dist/text-annotator.umd.js",
   "module": "./dist/text-annotator.es.js",

@@ -1,4 +1,4 @@
-import type { TextAnnotation, TextAnnotationTarget } from '@recogito/text-annotator';
+import type { TextAnnotation, TextAnnotationTarget } from '@soomo/text-annotator';
 import type { TEIAnnotation, TEIAnnotationTarget, TEIRangeSelector } from '../TEIAnnotation';
 
 /**

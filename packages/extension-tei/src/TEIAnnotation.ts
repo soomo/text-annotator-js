@@ -1,5 +1,5 @@
 import type { Annotation, AnnotationTarget } from '@annotorious/core';
-import type { TextSelector } from '@recogito/text-annotator';
+import type { TextSelector } from '@soomo/text-annotator';
 
 export interface TEIAnnotation extends Annotation {
 

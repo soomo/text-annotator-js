@@ -11,4 +11,4 @@ export type {
 export type { 
   TextAnnotation,
   TextAnnotator as RecogitoTextAnnotator
-} from '@recogito/text-annotator';
+} from '@soomo/text-annotator';

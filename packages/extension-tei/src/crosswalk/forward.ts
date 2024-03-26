@@ -1,9 +1,9 @@
-import { isRevived, reviveTarget } from '@recogito/text-annotator';
+import { isRevived, reviveTarget } from '@soomo/text-annotator';
 import type { 
   TextAnnotation, 
   TextAnnotationTarget, 
   TextSelector
-} from '@recogito/text-annotator';
+} from '@soomo/text-annotator';
 import type { TEIAnnotation, TEIAnnotationTarget, TEIRangeSelector } from '../TEIAnnotation';
 
 /**

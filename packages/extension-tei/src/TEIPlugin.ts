@@ -2,7 +2,7 @@ import type {
   TextAnnotator,
   TextAnnotation,
   TextAnnotationTarget, 
-} from '@recogito/text-annotator';
+} from '@soomo/text-annotator';
 import type { 
   Annotator,
   Origin,  

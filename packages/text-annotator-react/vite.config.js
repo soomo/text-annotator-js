@@ -30,7 +30,7 @@ export default defineConfig(({ command, mode }) => ({
         ...Object.keys(packageJson.peerDependencies),
         "@annotorious/core",
         "@annotorious/react",
-        "@recogito/text-annotator",
+        "@soomo/text-annotator",
         "@recogito/text-annotator-tei"
       ],
       output: {

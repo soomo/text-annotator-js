@@ -1,6 +1,6 @@
 import { createPortal } from 'react-dom';
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { TextAnnotator, TextAnnotation, TextAnnotatorState } from '@recogito/text-annotator';
+import { TextAnnotator, TextAnnotation, TextAnnotatorState } from '@soomo/text-annotator';
 import { useAnnotator, useSelection } from '@annotorious/react';
 
 export interface TextAnnotatorPopupProps {
