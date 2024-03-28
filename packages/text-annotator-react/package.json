@@ -31,7 +31,7 @@
     "react-dom": "^18.2.0",
     "typescript": "^5.3.3",
     "vite": "^5.2.6",
-    "vite-plugin-dts": "^3.7.3",
+    "vite-plugin-dts": "^3.8.1",
     "vite-tsconfig-paths": "^4.3.2"
   },
   "peerDependencies": {
@@ -39,10 +39,10 @@
     "react-dom": "16.8.0 || >=17.x || >=18.x"
   },
   "dependencies": {
-    "@annotorious/core": "^3.0.0-rc.21",
-    "@annotorious/react": "^3.0.0-rc.21",
+    "@annotorious/core": "^3.0.0-rc.22",
+    "@annotorious/react": "^3.0.0-rc.22",
     "@neodrag/react": "^2.0.3",
-    "@recogito/text-annotator-tei": "^3.0.0-rc.18",
+    "@recogito/text-annotator-tei": "^3.0.0-rc.19",
     "@soomo/text-annotator": "^3.0.0-staging.1",
     "CETEIcean": "^1.9.2"
   }
