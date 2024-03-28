@@ -1,6 +1,6 @@
 {
-  "name": "@soomo/text-annotator",
-  "version": "3.0.0-staging.1",
+  "name": "@recogito/text-annotator",
+  "version": "3.0.0-rc.19",
   "description": "A JavaScript text annotation library",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -31,7 +31,7 @@
     "@types/uuid": "^9.0.8",
     "jsdom": "^24.0.0",
     "svelte": "^4.2.12",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.3",
     "vite": "^5.2.6",
     "vite-plugin-dts": "^3.8.1",
     "vitest": "^1.4.0"
@@ -39,6 +39,7 @@
   "dependencies": {
     "@annotorious/core": "^3.0.0-rc.22",
     "colord": "^2.9.3",
+    "dequal": "^2.0.3",
     "rbush": "^3.0.1",
     "uuid": "^9.0.1"
   }
