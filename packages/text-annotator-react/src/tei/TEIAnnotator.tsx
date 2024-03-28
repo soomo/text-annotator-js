@@ -1,8 +1,8 @@
 import { Children, cloneElement, ReactElement, ReactNode, useContext, useEffect } from 'react';
 import { AnnotoriousContext, Filter } from '@annotorious/react';
 import { TEIPlugin } from '@recogito/text-annotator-tei';
-import type { TextAnnotatorOptions } from '@soomo/text-annotator';
-import { createTextAnnotator } from '@soomo/text-annotator';
+import { createTextAnnotator, HighlightStyleExpression } from '@recogito/text-annotator';
+import type { TextAnnotatorOptions } from '@recogito/text-annotator';
 
 import '@soomo/text-annotator/dist/text-annotator.css';
 
@@ -11,6 +11,8 @@ export type TEIAnnotatorProps = TextAnnotatorOptions & {
   children?: ReactNode | JSX.Element;
 
   filter?: Filter;
+
+  style?: HighlightStyleExpression
 
 }
 

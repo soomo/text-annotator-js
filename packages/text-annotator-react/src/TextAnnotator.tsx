@@ -1,9 +1,11 @@
 import { ReactNode, useContext, useEffect, useRef } from 'react';
-import { AnnotoriousContext, Filter, FormatAdapter } from '@annotorious/react';
-import type { HighlightStyleExpression, TextAnnotation, TextAnnotatorOptions } from '@soomo/text-annotator';
-import { createTextAnnotator } from '@soomo/text-annotator';
+import { AnnotoriousContext, Filter } from '@annotorious/react';
+import type { FormatAdapter } from '@annotorious/core';
+import type { HighlightStyleExpression, TextAnnotation, TextAnnotatorOptions } from '@recogito/text-annotator';
+import { createTextAnnotator } from '@recogito/text-annotator';
 
 import '@soomo/text-annotator/dist/text-annotator.css';
+
 
 export interface TextAnnotatorProps<E extends unknown> extends Omit<TextAnnotatorOptions<E>, 'adapter'>  {
 
