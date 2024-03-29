@@ -24,13 +24,13 @@
   "module": "./dist/react-text-annotator.es.js",
   "types": "./dist/index.d.ts",
   "devDependencies": {
-    "@types/react-dom": "^18.2.22",
+    "@types/react-dom": "^18.2.23",
     "@vitejs/plugin-react": "^4.2.1",
     "openseadragon": "4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.4.3",
-    "vite": "^5.2.6",
+    "vite": "^5.2.7",
     "vite-plugin-dts": "^3.8.1",
     "vite-tsconfig-paths": "^4.3.2"
   },
@@ -42,7 +42,7 @@
     "@annotorious/core": "^3.0.0-rc.22",
     "@annotorious/react": "^3.0.0-rc.22",
     "@soomo/text-annotator": "^3.0.0-staging.2",
-    "@recogito/text-annotator-tei": "^3.0.0-rc.19",
+    "@recogito/text-annotator-tei": "^3.0.0-rc.22",
     "@neodrag/react": "^2.0.3",
     "CETEIcean": "^1.9.2"
   }
