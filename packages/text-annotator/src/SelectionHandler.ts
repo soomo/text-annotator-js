@@ -13,6 +13,7 @@ import {
 export const SelectionHandler = (
   container: HTMLElement,
   state: TextAnnotatorState,
+  annotationEnabled: boolean,
   offsetReferenceSelector?: string
 ) => {
 
@@ -48,7 +49,8 @@ export const SelectionHandler = (
     }
   }
 
-  container.addEventListener('selectstart', onSelectStart);
+  if (annotationEnabled)
+    container.addEventListener('selectstart', onSelectStart);
 
   const onSelectionChange = debounce( (evt: PointerEvent) => {
     const sel = document.getSelection();
@@ -67,6 +69,7 @@ export const SelectionHandler = (
     const hasChanged =
       annotatableRanges.length !== currentTarget.selector.length ||
       annotatableRanges.some((r, i) => r.toString() !== currentTarget.selector[i]?.quote);
+      
     if (!hasChanged) return;
 
     currentTarget = {
@@ -88,7 +91,8 @@ export const SelectionHandler = (
     }
   })
 
-  document.addEventListener('selectionchange', onSelectionChange);
+  if (annotationEnabled)
+    document.addEventListener('selectionchange', onSelectionChange);
 
   // Select events don't carry information about the mouse button
   // Therefore, to prevent right-click selection, we need to listen

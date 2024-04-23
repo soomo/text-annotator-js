@@ -5,11 +5,10 @@ import { createPresencePainter } from './presence';
 import { scrollIntoView } from './api';
 import { TextAnnotationStore, TextAnnotatorState, createTextAnnotatorState } from './state';
 import type { TextAnnotation } from './model';
-import type { RendererType, TextAnnotatorOptions } from './TextAnnotatorOptions';
+import { fillDefaults, type RendererType, type TextAnnotatorOptions } from './TextAnnotatorOptions';
 import { SelectionHandler } from './SelectionHandler';
 
 import './TextAnnotator.css';
-
 
 const USE_DEFAULT_RENDERER: RendererType = 'SPANS';
 
@@ -28,10 +27,14 @@ export interface TextAnnotator<E extends unknown = TextAnnotation> extends Annot
 
 export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   container: HTMLElement, 
-  opts: TextAnnotatorOptions<E> = {}
+  options: TextAnnotatorOptions<E> = {}
 ): TextAnnotator<E> => {
   // Prevent mobile browsers from triggering word selection on single click.
   container.addEventListener('click', evt => !(evt.target as Element).closest('a') && evt.preventDefault());
+
+  const opts = fillDefaults<E>(options, {
+    annotationEnabled: true
+  });
 
   const state: TextAnnotatorState = createTextAnnotatorState(container, opts.pointerAction);
 
@@ -41,9 +44,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
 
   const undoStack = createUndoStack(store);
 
-  const lifecycle = createLifecyleObserver<TextAnnotation, TextAnnotation | E>(
-    state, undoStack, opts.adapter
-  );
+  const lifecycle = createLifecyleObserver<TextAnnotation, E>(state, undoStack, opts.adapter);
   
   let currentUser: User = createAnonymousGuest();
 
@@ -68,8 +69,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   if (opts.style)
     highlightRenderer.setStyle(opts.style);
 
-  const selectionHandler = SelectionHandler(container, state, opts.offsetReferenceSelector);
-
+  const selectionHandler = SelectionHandler(container, state, opts.annotationEnabled, opts.offsetReferenceSelector);
   selectionHandler.setUser(currentUser);
 
   /*************************/
