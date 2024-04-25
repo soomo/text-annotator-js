@@ -26,24 +26,26 @@ export type {
   W3CAnnotationTarget
 } from '@annotorious/core';
 
-import {
-  createBody as _createBody,
-  Origin as _Origin,
-  PointerSelectAction as _PointerSelectAction
+export {
+  createBody,
+  Origin,
+  PointerSelectAction
 } from '@annotorious/core';
 
-export const PointerSelectAction = _PointerSelectAction;
-export const createBody = _createBody;
-export const Origin = _Origin;
-
 // Essential re-exports from @annotorious/react
-export type {
-  AnnotoriousPlugin
+export {
+ AnnotoriousPlugin
 } from '@annotorious/react';
 
 export type { 
   TextAnnotation,
   TextAnnotationTarget,
+  TextSelector,
+  W3CTextAnnotation,
+  W3CTextAnnotationTarget,
+  W3CTextSelector,
+  W3CAnnotationStylesheet,
+  HighlightStyle,
   TextAnnotator as RecogitoTextAnnotator,
-  TextSelector
+  TextAnnotationStore
 } from '@soomo/text-annotator';
