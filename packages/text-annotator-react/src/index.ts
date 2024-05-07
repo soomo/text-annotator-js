@@ -38,6 +38,8 @@ export {
 } from '@annotorious/react';
 
 export type { 
+  HighlightStyle,
+  HighlightStyleExpression,
   TextAnnotation,
   TextAnnotationTarget,
   TextSelector,
@@ -45,7 +47,6 @@ export type {
   W3CTextAnnotationTarget,
   W3CTextSelector,
   W3CAnnotationStylesheet,
-  HighlightStyle,
   TextAnnotator as RecogitoTextAnnotator,
   TextAnnotationStore
 } from '@soomo/text-annotator';
