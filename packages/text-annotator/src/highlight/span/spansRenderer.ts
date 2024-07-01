@@ -85,7 +85,7 @@ const createRenderer = (container: HTMLElement): RendererImplementation => {
             span.style.borderBottomWidth = `${style.underlineThickness}px`;
 
           if (style.underlineOffset)
-            span.style.paddingBottom = `${style.underlineOffset}px`;
+            span.style.height = `${rect.height + style.underlineOffset}px`
 
           highlightLayer.appendChild(span);
         }
