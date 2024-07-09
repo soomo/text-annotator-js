@@ -17,3 +17,8 @@
   border-width: 0;
   border-style: solid;
 }
+
+.r6o-annotation {
+  /* `padding` should grow beyond the `height` and be used as the underline offset */
+  box-sizing: content-box;
+}

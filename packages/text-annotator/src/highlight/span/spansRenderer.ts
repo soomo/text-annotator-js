@@ -14,7 +14,7 @@ const computeZIndex = (rect: Rect, all: Rect[]): number => {
   const intersects = (a: Rect, b: Rect): boolean => (
     a.x <= b.x + b.width && a.x + a.width >= b.x &&
     a.y <= b.y + b.height && a.y + a.height >= b.y
-  );
+  )
 
   return all.filter(other => (
     rect !== other &&
@@ -85,7 +85,7 @@ const createRenderer = (container: HTMLElement): RendererImplementation => {
             span.style.borderBottomWidth = `${style.underlineThickness}px`;
 
           if (style.underlineOffset)
-            span.style.height = `${rect.height + style.underlineOffset}px`
+            span.style.paddingBottom = `${style.underlineOffset}px`;
 
           highlightLayer.appendChild(span);
         }
@@ -118,4 +118,4 @@ export const createSpansRenderer = (
   container: HTMLElement,
   state: TextAnnotatorState,
   viewport: ViewportState
-) => createBaseRenderer(container, state, viewport, createRenderer(container));
+) => createBaseRenderer(container, state, viewport, createRenderer(container))
