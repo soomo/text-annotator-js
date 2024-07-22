@@ -137,7 +137,6 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
     setFilter,
     setStyle: highlightRenderer.setStyle.bind(highlightRenderer),
     redraw: highlightRenderer.redraw.bind(highlightRenderer),
-    redraw: highlightRenderer.redraw.bind(highlightRenderer),
     setUser,
     setSelected,
     setPresenceProvider,
