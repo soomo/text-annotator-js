@@ -7,7 +7,7 @@ export interface TextAnnotatorOptions<T extends unknown = TextAnnotation> {
 
   adapter?: FormatAdapter<TextAnnotation, T> | null;
 
-  annotationEnabled?: boolean;
+  annotatingEnabled?: boolean;
 
   renderer?: RendererType;
 
@@ -32,7 +32,7 @@ export const fillDefaults = <T extends unknown = TextAnnotation>(
 
   return {
     ...opts,
-    annotationEnabled: opts.annotationEnabled ?? defaults.annotationEnabled,
+    annotatingEnabled: opts.annotatingEnabled ?? defaults.annotatingEnabled,
     user: opts.user || defaults.user,
   };
 

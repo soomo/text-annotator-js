@@ -47,7 +47,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   cancelSingleClickEvents(container);
 
   const opts = fillDefaults<E>(options, {
-    annotationEnabled: true,
+    annotatingEnabled: true,
     user: createAnonymousGuest()
   });
 
@@ -84,7 +84,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   if (opts.style)
     highlightRenderer.setStyle(opts.style);
 
-  const selectionHandler = SelectionHandler(container, state, opts.annotationEnabled, opts.offsetReferenceSelector);
+  const selectionHandler = SelectionHandler(container, state, opts.annotatingEnabled, opts.offsetReferenceSelector);
   selectionHandler.setUser(currentUser);
 
   /*************************/
