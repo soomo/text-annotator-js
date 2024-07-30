@@ -1,4 +1,4 @@
-import type { FormatAdapter, PointerSelectAction, User } from '@annotorious/core';
+import type { FormatAdapter, UserSelectActionExpression, User } from '@annotorious/core';
 import type { PresencePainterOptions } from './presence';
 import type { TextAnnotation } from './model';
 import type { HighlightStyleExpression } from './highlight';
@@ -13,14 +13,13 @@ export interface TextAnnotatorOptions<T extends unknown = TextAnnotation> {
 
   offsetReferenceSelector?: string;
 
-  pointerAction?: PointerSelectAction | ((annotation: TextAnnotation) => PointerSelectAction);
+  userAction?: UserSelectActionExpression<TextAnnotation>,
 
   presence?: PresencePainterOptions;
 
   style?: HighlightStyleExpression;
 
   user?: User;
-
 }
 
 export type RendererType = 'SPANS' | 'CANVAS' | 'CSS_HIGHLIGHTS';
