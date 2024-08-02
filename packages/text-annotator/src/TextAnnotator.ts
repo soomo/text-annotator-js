@@ -18,7 +18,7 @@ import { TextAnnotationStore, TextAnnotatorState, createTextAnnotatorState } fro
 import type { TextAnnotation } from './model';
 import { cancelSingleClickEvents, programmaticallyFocusable } from './utils';
 import { fillDefaults, type RendererType, type TextAnnotatorOptions } from './TextAnnotatorOptions';
-import { SelectionHandler } from './SelectionHandler';
+import { createSelectionHandler } from './SelectionHandler';
 
 import './TextAnnotator.css';
 
@@ -34,6 +34,8 @@ export interface TextAnnotator<E extends unknown = TextAnnotation> extends Annot
 
   // Returns true if successful (or false if the annotation is not currently rendered)
   scrollIntoView(annotation: TextAnnotation): boolean;
+
+  setAnnotatingEnabled: (enabled: boolean) => void;
 
   state: TextAnnotatorState;
 
@@ -87,8 +89,9 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   if (opts.style)
     highlightRenderer.setStyle(opts.style);
 
-  const selectionHandler = SelectionHandler(container, state, opts.annotatingEnabled, opts.offsetReferenceSelector);
+  const selectionHandler = createSelectionHandler(container, state, opts.offsetReferenceSelector);
   selectionHandler.setUser(currentUser);
+  selectionHandler.setAnnotatingEnabled(opts.annotatingEnabled);
 
   /*************************/
   /*      External API     */
@@ -98,6 +101,10 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   const base = createBaseAnnotator<TextAnnotation, E>(state, undoStack, opts.adapter);
 
   const getUser = () => currentUser;
+
+  const setAnnotatingEnabled = (enabled: boolean) => {
+    selectionHandler.setAnnotatingEnabled(enabled);
+  };
 
   const setFilter = (filter?: Filter) => {
     highlightRenderer.setFilter(filter);
@@ -137,6 +144,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
     destroy,
     element: container,
     getUser,
+    setAnnotatingEnabled,
     setFilter,
     setStyle: highlightRenderer.setStyle.bind(highlightRenderer),
     redraw: highlightRenderer.redraw.bind(highlightRenderer),

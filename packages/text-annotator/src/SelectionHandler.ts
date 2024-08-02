@@ -14,10 +14,9 @@ import {
   NOT_ANNOTATABLE_SELECTOR
 } from './utils';
 
-export const SelectionHandler = (
+export const createSelectionHandler = (
   container: HTMLElement,
   state: TextAnnotatorState,
-  annotatingEnabled: boolean,
   offsetReferenceSelector?: string
 ) => {
 
@@ -29,6 +28,10 @@ export const SelectionHandler = (
 
   const setFilter = (filter?: Filter) => currentFilter = filter;
 
+  let currentAnnotatingEnabled = true;
+
+  const setAnnotatingEnabled = (enabled: boolean) => currentAnnotatingEnabled = enabled;
+
   const { store, selection } = state;
 
   let currentTarget: TextAnnotationTarget | undefined;
@@ -38,6 +41,8 @@ export const SelectionHandler = (
   let lastDownEvent: Selection['event'] | undefined;
 
   const onSelectStart = (evt: Event) => {
+    if (!currentAnnotatingEnabled) return;
+
     if (isLeftClick === false)
       return;
 
@@ -57,10 +62,10 @@ export const SelectionHandler = (
     } : undefined;
   }
 
-  if (annotatingEnabled)
-    container.addEventListener('selectstart', onSelectStart);
+  container.addEventListener('selectstart', onSelectStart);
 
   const onSelectionChange = debounce((evt: Event) => {
+    if (!currentAnnotatingEnabled) return;
     const sel = document.getSelection();
 
     // This is to handle cases where the selection is "hijacked" by another element
@@ -116,8 +121,7 @@ export const SelectionHandler = (
     }
   })
 
-  if (annotatingEnabled)
-    document.addEventListener('selectionchange', onSelectionChange);
+  document.addEventListener('selectionchange', onSelectionChange);
 
   /**
    * Select events don't carry information about the mouse button
@@ -219,7 +223,8 @@ export const SelectionHandler = (
   return {
     destroy,
     setFilter,
-    setUser
+    setUser,
+    setAnnotatingEnabled
   }
 
 }
