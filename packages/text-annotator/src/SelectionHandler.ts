@@ -141,7 +141,7 @@ export const createSelectionHandler = (
     lastDownEvent = clonePointerEvent(evt);
     isLeftClick = lastDownEvent.button === 0;
   }
-  container.addEventListener('pointerdown', onPointerDown);
+  document.addEventListener('pointerdown', onPointerDown);
 
   const onPointerUp = (evt: PointerEvent) => {
     const annotatable = !(evt.target as Node).parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
@@ -152,7 +152,11 @@ export const createSelectionHandler = (
     const userSelect = () => {
       const { x, y } = container.getBoundingClientRect();
 
-      const hovered = store.getAt(evt.clientX - x, evt.clientY - y, currentFilter);
+      const hovered =
+        evt.target instanceof Node &&
+        container.contains(evt.target) &&
+        store.getAt(evt.clientX - x, evt.clientY - y, currentFilter);
+
       if (hovered) {
         const { selected } = selection;
 
@@ -219,7 +223,7 @@ export const createSelectionHandler = (
     container.removeEventListener('selectstart', onSelectStart);
     document.removeEventListener('selectionchange', onSelectionChange);
 
-    container.removeEventListener('pointerdown', onPointerDown);
+    document.removeEventListener('pointerdown', onPointerDown);
     document.removeEventListener('pointerup', onPointerUp);
 
     hotkeys.unbind();
