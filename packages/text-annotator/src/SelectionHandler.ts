@@ -11,6 +11,7 @@ import {
   splitAnnotatableRanges,
   rangeToSelector,
   isWhitespaceOrEmpty,
+  trimRangeToContainer,
   NOT_ANNOTATABLE_SELECTOR
 } from './utils';
 
@@ -78,7 +79,8 @@ export const createSelectionHandler = (
     }
 
     // Chrome/iOS does not reliably fire the 'selectstart' event!
-    if (evt.timeStamp - (lastDownEvent?.timeStamp || evt.timeStamp) < 1000 && !currentTarget) {
+    const timeDifference = evt.timeStamp - (lastDownEvent?.timeStamp || evt.timeStamp);
+    if (timeDifference < 1000 && !currentTarget) {
       onSelectStart(lastDownEvent || evt);
     }
 
@@ -87,9 +89,12 @@ export const createSelectionHandler = (
 
 
     const selectionRange = sel.getRangeAt(0);
-    if (isWhitespaceOrEmpty(selectionRange)) return;
 
-    const annotatableRanges = splitAnnotatableRanges(selectionRange.cloneRange());
+// The selection should be captured only within the annotatable container
+    const containedRange = trimRangeToContainer(selectionRange, container);
+    if (isWhitespaceOrEmpty(containedRange)) return;
+
+    const annotatableRanges = splitAnnotatableRanges(containedRange.cloneRange());
 
     const hasChanged =
       annotatableRanges.length !== currentTarget.selector.length ||
