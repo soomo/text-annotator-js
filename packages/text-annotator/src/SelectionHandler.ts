@@ -151,6 +151,7 @@ export const createSelectionHandler = (
      */
     lastDownEvent = clonePointerEvent(evt);
     isLeftClick = lastDownEvent.button === 0;
+    currentTarget = undefined;
   }
   document.addEventListener('pointerdown', onPointerDown);
 
@@ -178,6 +179,7 @@ export const createSelectionHandler = (
       }
     }
 
+    const sel = document.getSelection();
     const timeDifference = evt.timeStamp - lastDownEvent.timeStamp;
 
     /**
@@ -190,10 +192,10 @@ export const createSelectionHandler = (
      * @see https://github.com/recogito/text-annotator-js/issues/136
      */
     setTimeout(() => {
-      const { isCollapsed } = document.getSelection()
+      const sel = document.getSelection()
 
       // Just a click, not a selection
-      if (isCollapsed && timeDifference < 300) {
+      if (sel?.isCollapsed && timeDifference < 300) {
         currentTarget = undefined;
         userSelect();
       } else if (currentTarget) {
