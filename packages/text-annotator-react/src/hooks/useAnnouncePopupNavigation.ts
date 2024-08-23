@@ -7,13 +7,16 @@ import { exhaustiveUniqueRandom } from 'unique-random';
 
 interface AnnouncePopupOpeningArgs {
     message?: string;
+    idle?: number;
     floatingOpen: boolean;
+    floatingFocused?: boolean;
     disabled?: boolean;
 }
 
 export const useAnnouncePopupNavigation = (args: AnnouncePopupOpeningArgs) => {
   const {
     message = 'Press Tab to move to Notes Dialog',
+    idle = 700,
     floatingOpen,
     disabled = false
   } = args;
@@ -29,11 +32,11 @@ export const useAnnouncePopupNavigation = (args: AnnouncePopupOpeningArgs) => {
    * its `polite` announcements live area
    */
   useLayoutEffect(() => {
-    if (!message) return;
+    if (disabled || !message) return;
 
     announce('', 'polite');
     return () => destroyAnnouncer();
-  }, [message]);
+  }, [disabled, message]);
 
   /**
    * Screen reader requires messages to always be unique!
@@ -50,7 +53,6 @@ export const useAnnouncePopupNavigation = (args: AnnouncePopupOpeningArgs) => {
     announce(`${message} ${uniqueSpaces}`, 'polite');
   }, [message, announcementSeed]);
 
-  const idleTimeoutMs = 700;
   const idleTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export const useAnnouncePopupNavigation = (args: AnnouncePopupOpeningArgs) => {
 
     const scheduleIdleAnnouncement = () => {
       clearTimeout(idleTimeoutRef.current);
-      idleTimeoutRef.current = setTimeout(announcePopupNavigation, idleTimeoutMs);
+      idleTimeoutRef.current = setTimeout(announcePopupNavigation, idle);
     };
 
     scheduleIdleAnnouncement();
@@ -68,5 +70,6 @@ export const useAnnouncePopupNavigation = (args: AnnouncePopupOpeningArgs) => {
       clearTimeout(idleTimeoutRef.current);
       store.unobserve(scheduleIdleAnnouncement);
     };
-  }, [floatingOpen, event?.type, message, announcePopupNavigation, store]);
+  }, [disabled, floatingOpen, event?.type, message, announcePopupNavigation, store]);
+
 };
