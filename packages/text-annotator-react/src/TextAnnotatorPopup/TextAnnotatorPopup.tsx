@@ -106,32 +106,27 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   }, [isOpen, selectedKey]);
 
   useEffect(() => {
-    if (!isOpen || !annotation) return;
+    if (!r) return;
 
-    const {
-      target: {
-        selector: [{ range }]
-      }
-    } = annotation;
-
+    if (isOpen && annotation?.id) {
       refs.setPositionReference({
         getBoundingClientRect: () => denormalizeRectWithOffset(
-        r.state.store.getAnnotationBounds(annotation.id),
-        r.element.getBoundingClientRect()
-      ),
+          r.state.store.getAnnotationBounds(annotation.id),
+          r.element.getBoundingClientRect()
+        ),
         getClientRects: () => {
-        const rects = r.state.store.getAnnotationRects(annotation.id);
-        const denormalizedRects = rects.map(
-          rect => denormalizeRectWithOffset(rect, r.element.getBoundingClientRect())
-        );
-        return toDomRectList(denormalizedRects);
-      }
+          const rects = r.state.store.getAnnotationRects(annotation.id);
+          const denormalizedRects = rects.map(
+            rect => denormalizeRectWithOffset(rect, r.element.getBoundingClientRect())
+          );
+          return toDomRectList(denormalizedRects);
+        }
       });
     } else {
       // Don't leave the reference depending on the previously selected annotation
       refs.setPositionReference(null);
     }
-  }, [isOpen, annotation?.id, r]);
+  }, [isOpen, annotation?.id, annotation?.target, r]);
 
   // Prevent text-annotator from handling the irrelevant events triggered from the popup
   const getStopEventsPropagationProps = useCallback(
