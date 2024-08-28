@@ -21,7 +21,7 @@ import {
   type TextAnnotator,
 } from '@soomo/text-annotator';
 
-import { useAnnouncePopupNavigation, useRestoreSelectionCaret } from '../hooks';
+import { useAnnouncePopupNavigation } from '../hooks';
 import './TextAnnotatorPopup.css';
 
 interface TextAnnotationPopupProps {
@@ -60,19 +60,11 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { refs, floatingStyles, update, context } = useFloating({
     placement: 'top',
     open: isOpen,
-    onOpenChange: (open, event, reason) => {
+    onOpenChange: (open, _event, reason) => {
       setOpen(open);
 
       if (!open) {
-        if (
-          reason === 'escape-key' ||
-          /**
-           * When the focus leaves the floating - cancel the selection.
-           * However, it doesn't have a distinct reason yet, will be resolved in the discussion:
-           * @see https://github.com/floating-ui/floating-ui/discussions/3012#discussioncomment-10405906
-           */
-          event instanceof FocusEvent
-        ) {
+        if (reason === 'escape-key' || reason === 'focus-out') {
           handleClose();
         }
       }
@@ -145,10 +137,8 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     return () => {
       mutationObserver.disconnect();
       window.document.removeEventListener('scroll', update, true);
-    }
+    };
   }, [update]);
-
-  useRestoreSelectionCaret({ floatingOpen: isOpen });
 
   /**
    * Announce the navigation hint only on the keyboard selection,
@@ -194,4 +184,4 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     </FloatingPortal>
   ) : null;
 
-}
+};
