@@ -1,6 +1,5 @@
 export * from './cancelSingleClickEvents';
 export * from './programmaticallyFocusable';
-export * from './debounce';
 export * from './getAnnotatableFragment';
 export * from './getClientRectsPonyfill';
 export * from './getQuoteContext';

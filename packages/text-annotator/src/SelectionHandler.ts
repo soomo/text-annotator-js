@@ -1,12 +1,13 @@
 import { Filter, Origin, type Selection, type User } from '@annotorious/core';
 import { v4 as uuidv4 } from 'uuid';
+import debounce from 'debounce';
 import hotkeys from 'hotkeys-js';
+
 import type { TextAnnotatorState } from './state';
 import type { TextAnnotationTarget } from './model';
 import {
   clonePointerEvent,
   cloneKeyboardEvent,
-  debounce,
   splitAnnotatableRanges,
   rangeToSelector,
   isWhitespaceOrEmpty,
@@ -30,7 +31,16 @@ export const createSelectionHandler = (
 
   let currentAnnotatingEnabled = true;
 
-  const setAnnotatingEnabled = (enabled: boolean) => currentAnnotatingEnabled = enabled;
+  const setAnnotatingEnabled = (enabled: boolean) => {
+    currentAnnotatingEnabled = enabled;
+    onSelectionChange.clear();
+
+    if (!enabled) {
+      currentTarget = undefined;
+      isLeftClick = undefined;
+      lastDownEvent = undefined;
+    }
+  };
 
   const { store, selection } = state;
 
@@ -228,6 +238,12 @@ export const createSelectionHandler = (
   });
 
   const destroy = () => {
+    currentTarget = undefined;
+    isLeftClick = undefined;
+    lastDownEvent = undefined;
+
+    onSelectionChange.clear();
+
     container.removeEventListener('selectstart', onSelectStart);
     document.removeEventListener('selectionchange', onSelectionChange);
 
