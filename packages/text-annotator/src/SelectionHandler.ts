@@ -238,13 +238,17 @@ export const createSelectionHandler = (
    *   or clicks the button that gets unmounted, e.g. "Close"
    */
   const handleArrowKeyPress = (evt: KeyboardEvent) => {
-    if (!evt.repeat) {
-      currentTarget = undefined;
-      selection.clear();
+    if (
+      evt.repeat ||
+      evt.target !== container && evt.target !== document.body
+    ) {
+      return;
     }
+
+    currentTarget = undefined;
+    selection.clear();
   };
-  hotkeys(arrowKeys.join(','), { element: document.body, keydown: true, keyup: false }, handleArrowKeyPress);
-  hotkeys(arrowKeys.join(','), { element: container, keydown: true, keyup: false }, handleArrowKeyPress);
+  hotkeys(arrowKeys.join(','), { keydown: true, keyup: false }, handleArrowKeyPress);
 
   const destroy = () => {
     currentTarget = undefined;
