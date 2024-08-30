@@ -20,6 +20,7 @@ export interface TextAnnotatorOptions<T extends unknown = TextAnnotation> {
   style?: HighlightStyleExpression;
 
   user?: User;
+
 }
 
 export type RendererType = 'SPANS' | 'CANVAS' | 'CSS_HIGHLIGHTS';
@@ -32,7 +33,7 @@ export const fillDefaults = <T extends unknown = TextAnnotation>(
   return {
     ...opts,
     annotatingEnabled: opts.annotatingEnabled ?? defaults.annotatingEnabled,
-    user: opts.user || defaults.user,
+    user: opts.user || defaults.user
   };
 
 };

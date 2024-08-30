@@ -147,7 +147,7 @@ export const createSelectionHandler = (
       // ...then make the new annotation the current selection
       selection.userSelect(currentTarget.annotation, lastDownEvent);
     }
-  }, 10);
+  }, 10).bind(undefined);
 
   document.addEventListener('selectionchange', onSelectionChange);
 
