@@ -1,11 +1,11 @@
 import { Filter, Origin, type Selection, type User } from '@annotorious/core';
 import { v4 as uuidv4 } from 'uuid';
-import debounce from 'debounce';
 import hotkeys from 'hotkeys-js';
 
 import type { TextAnnotatorState } from './state';
 import type { TextAnnotationTarget } from './model';
 import {
+  debounce,
   clonePointerEvent,
   cloneKeyboardEvent,
   splitAnnotatableRanges,
@@ -147,7 +147,7 @@ export const createSelectionHandler = (
       // ...then make the new annotation the current selection
       selection.userSelect(currentTarget.annotation, lastDownEvent);
     }
-  }, 10).bind(undefined);
+  });
 
   document.addEventListener('selectionchange', onSelectionChange);
 

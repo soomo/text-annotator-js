@@ -12,6 +12,7 @@ export * from './reviveSelector';
 export * from './reviveTarget';
 export * from './splitAnnotatableRanges';
 export * from './trimRangeToContainer';
+export * from './debounce';
 export * from './normalizeRects';
 export * from './cloneEvents';
 
