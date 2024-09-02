@@ -228,7 +228,7 @@ export const createSelectionHandler = (
         selection.userSelect(currentTarget.annotation, evt);
       }
     });
-  };
+  }
 
   document.addEventListener('pointerdown', onPointerDown);
   document.addEventListener('pointerup', onPointerUp);
