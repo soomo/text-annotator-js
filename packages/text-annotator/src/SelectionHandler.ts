@@ -55,8 +55,7 @@ export const createSelectionHandler = (
   const onSelectStart = (evt: Event) => {
     if (!currentAnnotatingEnabled) return;
 
-    if (isLeftClick === false)
-      return;
+    if (isLeftClick === false) return;
 
     /**
      * Make sure we don't listen to selection changes that were
