@@ -208,7 +208,7 @@ export const createSelectionHandler = (
 
     const timeDifference = evt.timeStamp - lastDownEvent.timeStamp;
 
-    /**
+      /**
      * We must check the `isCollapsed` within the 0-timeout
      * to handle the annotation dismissal after a click properly.
      *
