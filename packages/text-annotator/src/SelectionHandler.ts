@@ -182,7 +182,9 @@ export const createSelectionHandler = (
   };
 
   const onPointerUp = (evt: PointerEvent) => {
-    const annotatable = !(evt.target as Node).parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
+    const evtTarget = evt.target as Node;
+
+    const annotatable = !evtTarget.parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
     if (!annotatable || !isLeftClick)
       return;
 
@@ -205,7 +207,6 @@ export const createSelectionHandler = (
       }
     };
 
-    const sel = document.getSelection();
     const timeDifference = evt.timeStamp - lastDownEvent.timeStamp;
 
       /**
@@ -218,12 +219,25 @@ export const createSelectionHandler = (
      * @see https://github.com/recogito/text-annotator-js/issues/136
      */
     setTimeout(() => {
-      const sel = document.getSelection()
+      const sel = document.getSelection();
 
       // Just a click, not a selection
       if (sel?.isCollapsed && timeDifference < CLICK_TIMEOUT) {
-        currentTarget = undefined;
-        userSelect();
+
+        /**
+         * Don't process the collapsed range as the click
+         * when it ends on the document root element, `html`.
+         *
+         * It can happen when user quickly drags from the
+         * `input`/`textarea` to the browser's toolbar.
+         *
+         * @see https://github.com/recogito/text-annotator-js/issues/147
+         */
+        if (evtTarget !== document.documentElement) {
+          currentTarget = undefined;
+          userSelect();
+        }
+
       } else if (currentTarget && store.getAnnotation(currentTarget.annotation)) {
         selection.userSelect(currentTarget.annotation, evt);
       }
