@@ -5,9 +5,9 @@ import { createNanoEvents, type Unsubscribe } from 'nanoevents';
 import type { TextAnnotation, TextAnnotationTarget } from '../model';
 import {
   isRevived,
+  reviveSelector,
   mergeClientRects,
-  normalizeRectWithOffset,
-  reviveSelector
+  normalizeRectWithOffset
 } from '../utils';
 import type { AnnotationRects } from './TextAnnotationStore';
 
