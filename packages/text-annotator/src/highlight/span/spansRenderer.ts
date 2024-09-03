@@ -68,7 +68,7 @@ const createRenderer = (container: HTMLElement): RendererImplementation => {
      * Note that I need to disable temporarily. Turns out annotation loading WITHOUT
      * an adapter does not yet revive dates, causing this to fail. Needs to be
      * fixed directly in the Annotorious Annotator.
-     *
+     */
     const highlightsByCreation = [...highlights].sort((highlightA, highlightB) => {
       const { annotation: { target: { created: createdA } } } = highlightA;
       const { annotation: { target: { created: createdB } } } = highlightB;
@@ -76,9 +76,8 @@ const createRenderer = (container: HTMLElement): RendererImplementation => {
       console.log(highlightB.annotation);
       return createdA && createdB ? createdA.getTime() - createdB.getTime() : 0;
     });
-    */
 
-    [...highlights]/*highlightsByCreation*/.forEach(highlight => {
+    highlightsByCreation.forEach(highlight => {
       highlight.rects.map(rect => {
         const zIndex = computeZIndex(rect, highlights);
         const style = paint(highlight, viewportBounds, currentStyle, painter, zIndex);
