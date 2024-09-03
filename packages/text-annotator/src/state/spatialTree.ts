@@ -4,17 +4,12 @@ import { createNanoEvents, type Unsubscribe } from 'nanoevents';
 
 import type { TextAnnotation, TextAnnotationTarget } from '../model';
 import {
-  getClientRectsPonyfill,
   isRevived,
   mergeClientRects,
   normalizeRectWithOffset,
   reviveSelector
 } from '../utils';
 import type { AnnotationRects } from './TextAnnotationStore';
-
-const isFirefox = false; // navigator.userAgent.match(/firefox|fxios/i);
-
-if (isFirefox) console.warn('Firefox interop enabled');
 
 interface IndexedHighlightRect {
 
@@ -54,9 +49,7 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
   const toItems = (target: TextAnnotationTarget, offset: DOMRect): IndexedHighlightRect[] => {
     const rects = target.selector.flatMap(s => {
       const revivedRange = isRevived([s]) ? s.range : reviveSelector(s, container).range;
-      return isFirefox ?
-        getClientRectsPonyfill(revivedRange) :
-        Array.from(revivedRange.getClientRects());
+      return Array.from(revivedRange.getClientRects());
     });
 
     /**
