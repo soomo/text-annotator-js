@@ -173,6 +173,9 @@ export const createSelectionHandler = (
    * to the initial pointerdown event and remember the button
    */
   const onPointerDown = (evt: PointerEvent) => {
+    const annotatable = !(evt.target as Node).parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
+    if (!annotatable) return;
+
     /**
      * Cloning the event to prevent it from accidentally being `undefined`
      * @see https://github.com/recogito/text-annotator-js/commit/65d13f3108c429311cf8c2523f6babbbc946013d#r144033948
@@ -182,11 +185,8 @@ export const createSelectionHandler = (
   };
 
   const onPointerUp = (evt: PointerEvent) => {
-    const evtTarget = evt.target as Node;
-
-    const annotatable = !evtTarget.parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
-    if (!annotatable || !isLeftClick)
-      return;
+    const annotatable = !(evt.target as Node).parentElement?.closest(NOT_ANNOTATABLE_SELECTOR);
+    if (!annotatable || !isLeftClick) return;
 
     // Logic for selecting an existing annotation
     const userSelect = () => {
@@ -223,21 +223,8 @@ export const createSelectionHandler = (
 
       // Just a click, not a selection
       if (sel?.isCollapsed && timeDifference < CLICK_TIMEOUT) {
-
-        /**
-         * Don't process the collapsed range as the click
-         * when it ends on the document root element, `html`.
-         *
-         * It can happen when user quickly drags from the
-         * `input`/`textarea` to the browser's toolbar.
-         *
-         * @see https://github.com/recogito/text-annotator-js/issues/147
-         */
-        if (evtTarget !== document.documentElement) {
-          currentTarget = undefined;
-          userSelect();
-        }
-
+        currentTarget = undefined;
+        userSelect();
       } else if (currentTarget && store.getAnnotation(currentTarget.annotation)) {
         selection.userSelect(currentTarget.annotation, evt);
       }
