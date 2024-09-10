@@ -166,7 +166,7 @@ export const createSelectionHandler = (
       // ...then make the new annotation the current selection
       selection.userSelect(currentTarget.annotation, lastDownEvent);
     }
-  });
+  }, 10);
 
   /**
    * Select events don't carry information about the mouse button
