@@ -37,7 +37,7 @@ export interface SpatialTreeEvents {
 
 }
 
-export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLElement) => {
+export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, container: HTMLElement) => {
 
   const tree = new RBush<IndexedHighlightRect>();
 
@@ -173,7 +173,7 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
     minY: number, 
     maxX: number, 
     maxY: number,
-  ): AnnotationRects[] => {
+  ): AnnotationRects<T>[] => {
     // All rects in this area, regardless of annotation
     const rects = tree.search({ minX, minY, maxX, maxY });
 

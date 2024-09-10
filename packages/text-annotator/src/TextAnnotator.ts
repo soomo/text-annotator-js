@@ -37,7 +37,7 @@ export interface TextAnnotator<I extends TextAnnotation = TextAnnotation, E exte
 
   setAnnotatingEnabled: (enabled: boolean) => void;
 
-  state: TextAnnotatorState;
+  state: TextAnnotatorState<I>;
 
 }
 
