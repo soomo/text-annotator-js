@@ -1,6 +1,6 @@
 {
   "name": "@soomo/react-text-annotator",
-  "version": "3.0.0-staging.57",
+  "version": "3.0.0-staging.58",
   "description": "Recogito Text Annotator React bindings",
   "author": "Rainer Simon",
   "license": "BSD-3-Clause",
@@ -47,9 +47,9 @@
     "@annotorious/core": "^3.0.5",
     "@annotorious/react": "^3.0.5",
     "@floating-ui/react": "^0.26.23",
-    "@soomo/text-annotator": "3.0.0-staging.57",
+    "@soomo/text-annotator": "3.0.0-staging.58",
     "@react-aria/live-announcer": "^3.3.4",
-    "@recogito/text-annotator-tei": "3.0.0-rc.44",
+    "@recogito/text-annotator-tei": "3.0.0-rc.45",
     "CETEIcean": "^1.9.3",
     "unique-random": "^4.0.0"
   }
