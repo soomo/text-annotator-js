@@ -1,13 +1,14 @@
-import { Filter, Origin, type Selection, type User } from '@annotorious/core';
+import debounce from 'debounce';
 import { v4 as uuidv4 } from 'uuid';
 import hotkeys from 'hotkeys-js';
+
+import { Origin, type Filter, type Selection, type User } from '@annotorious/core';
 
 import type { TextAnnotatorState } from './state';
 import type { TextAnnotationTarget } from './model';
 import {
   clonePointerEvent,
   cloneKeyboardEvent,
-  debounce,
   splitAnnotatableRanges,
   rangeToSelector,
   isWhitespaceOrEmpty,

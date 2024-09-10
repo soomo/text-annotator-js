@@ -2,10 +2,11 @@ import {
   createAnonymousGuest,
   createLifecycleObserver,
   createBaseAnnotator,
-  Filter,
-  createUndoStack
+  createUndoStack,
+  type Filter,
 } from '@annotorious/core';
 import type { Annotator, User, PresenceProvider } from '@annotorious/core';
+
 import {
   createCanvasRenderer,
   createHighlightsRenderer,

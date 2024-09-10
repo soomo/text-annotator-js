@@ -39,7 +39,7 @@
   "dependencies": {
     "@annotorious/core": "^3.0.5",
     "colord": "^2.9.3",
-    "debounce": "^2.1.0",
+    "debounce": "^2.1.1",
     "dequal": "^2.0.3",
     "nanoevents": "^9.0.0",
     "hotkeys-js": "^3.13.7",
