@@ -6,7 +6,6 @@ import { createTextAnnotator } from '@soomo/text-annotator';
 
 import '@soomo/text-annotator/dist/text-annotator.css';
 
-
 export interface TextAnnotatorProps<E extends unknown> extends Omit<TextAnnotatorOptions<TextAnnotation, E>, 'adapter'> {
 
   children?: ReactNode | JSX.Element;

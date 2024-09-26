@@ -5,7 +5,7 @@ import hotkeys from 'hotkeys-js';
 import { Origin, type Filter, type Selection, type User } from '@annotorious/core';
 
 import type { TextAnnotatorState } from './state';
-import type { TextAnnotationTarget } from './model';
+import type { TextAnnotation, TextAnnotationTarget } from './model';
 import {
   clonePointerEvent,
   cloneKeyboardEvent,
@@ -20,7 +20,7 @@ const CLICK_TIMEOUT = 300;
 
 export const createSelectionHandler = (
   container: HTMLElement,
-  state: TextAnnotatorState,
+  state: TextAnnotatorState<TextAnnotation, unknown>,
   offsetReferenceSelector?: string
 ) => {
 

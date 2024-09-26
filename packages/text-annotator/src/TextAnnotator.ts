@@ -15,7 +15,7 @@ import {
 } from './highlight';
 import { createPresencePainter } from './presence';
 import { scrollIntoView } from './api';
-import { TextAnnotationStore, TextAnnotatorState, createTextAnnotatorState } from './state';
+import { type TextAnnotationStore, type TextAnnotatorState, createTextAnnotatorState } from './state';
 import type { TextAnnotation } from './model';
 import { cancelSingleClickEvents, programmaticallyFocusable } from './utils';
 import { fillDefaults, type RendererType, type TextAnnotatorOptions } from './TextAnnotatorOptions';
@@ -25,7 +25,7 @@ import './TextAnnotator.css';
 
 const USE_DEFAULT_RENDERER: RendererType = 'SPANS';
 
-export interface TextAnnotator<I extends TextAnnotation = TextAnnotation, E extends unknown = TextAnnotation> extends Annotator<TextAnnotation, E> {
+export interface TextAnnotator<I extends TextAnnotation = TextAnnotation, E extends unknown = TextAnnotation> extends Annotator<I, E> {
 
   element: HTMLElement;
 
@@ -34,11 +34,11 @@ export interface TextAnnotator<I extends TextAnnotation = TextAnnotation, E exte
   redraw(force?: boolean): void;
 
   // Returns true if successful (or false if the annotation is not currently rendered)
-  scrollIntoView(annotation: I): boolean;
+  scrollIntoView(annotationOrId: I | string): boolean;
 
   setAnnotatingEnabled: (enabled: boolean) => void;
 
-  state: TextAnnotatorState<I>;
+  state: TextAnnotatorState<I, E>;
 
 }
 
@@ -57,7 +57,8 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
     user: createAnonymousGuest()
   });
 
-  const state: TextAnnotatorState = createTextAnnotatorState(container, opts.userSelectAction);
+  const state: TextAnnotatorState<TextAnnotation, E> =
+    createTextAnnotatorState<TextAnnotation, E>(container, opts.userSelectAction);
 
   const { selection, viewport } = state;
 
