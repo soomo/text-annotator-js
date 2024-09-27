@@ -28,7 +28,7 @@ export const trimRangeToContainer = (
    * If the range ends outside the container -
    * trim it to the end of the container
    */
-  if (containsEnd) {
+  if (!containsEnd) {
     trimmedRange.setEnd(container, container.childNodes.length);
   }
 
