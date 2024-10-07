@@ -1,5 +1,4 @@
-import { PointerEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-
+import { FC, PointerEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { isMobile } from './isMobile';
 import {
   autoUpdate,
@@ -23,9 +22,12 @@ import {
   type TextAnnotator,
 } from '@recogito/text-annotator';
 
+import { useAnnouncePopupNavigation } from '../hooks';
 import './TextAnnotatorPopup.css';
 
 interface TextAnnotationPopupProps {
+
+  ariaNavigationMessage?: string;
 
   ariaCloseWarning?: string;
 
@@ -43,7 +45,9 @@ export interface TextAnnotationPopupContentProps {
 
 }
 
-export const TextAnnotatorPopup = (props: TextAnnotationPopupProps) => {
+export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
+
+  const { popup, ariaNavigationMessage } = props;
 
   const r = useAnnotator<TextAnnotator>();
 
@@ -52,6 +56,14 @@ export const TextAnnotatorPopup = (props: TextAnnotationPopupProps) => {
   const annotation = selected[0]?.annotation;
 
   const [isOpen, setOpen] = useState(selected?.length > 0);
+  const handleClose = () => r?.cancelSelected();
+
+  const [isFloatingFocused, setFloatingFocused] = useState(false);
+  const handleFloatingFocus = () => setFloatingFocused(true);
+  const handleFloatingBlur = () => setFloatingFocused(false);
+  useEffect(() => {
+    if (!isOpen) handleFloatingBlur();
+  }, [isOpen, handleFloatingBlur]);
 
   const { refs, floatingStyles, update, context } = useFloating({
     placement: isMobile() ? 'bottom' : 'top',
@@ -59,7 +71,7 @@ export const TextAnnotatorPopup = (props: TextAnnotationPopupProps) => {
     onOpenChange: (open, _event, reason) => {
       if (!open && (reason === 'escape-key' || reason === 'focus-out')) {
         setOpen(open);
-        r?.cancelSelected();
+        handleClose();
       }
     },
     middleware: [
@@ -136,7 +148,15 @@ export const TextAnnotatorPopup = (props: TextAnnotationPopupProps) => {
     return (event?.type === 'keyup' || event?.type === 'contextmenu' || isMobile()) ? -1 : 0;
   }, [event]);
 
-  const onClose = () => r?.cancelSelected();
+  /**
+   * Announce the navigation hint only on the keyboard selection,
+   * because the focus isn't shifted to the popup automatically then
+   */
+  useAnnouncePopupNavigation({
+    disabled: isFloatingFocused,
+    floatingOpen: isOpen,
+    message: ariaNavigationMessage,
+  });
 
   return isOpen && annotation ? (
     <FloatingPortal>
@@ -150,15 +170,16 @@ export const TextAnnotatorPopup = (props: TextAnnotationPopupProps) => {
           className="a9s-popup r6o-popup annotation-popup r6o-text-popup not-annotatable"
           ref={refs.setFloating}
           style={floatingStyles}
+          onFocus={handleFloatingFocus}
+          onBlur={handleFloatingBlur}
           {...getFloatingProps()}
           {...getStopEventsPropagationProps()}>
-          {props.popup({
+          {popup({
             annotation: selected[0].annotation,
             editable: selected[0].editable,
             event
           })}
-
-          <button className="r6o-popup-sr-only" aria-live="assertive" onClick={onClose}>
+          <button className="r6o-popup-sr-only" aria-live="assertive" onClick={handleClose}>
             {props.ariaCloseWarning || 'Click or leave this dialog to close it.'}
           </button>
         </div>
