@@ -1,4 +1,4 @@
-import { FC, PointerEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, PointerEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { isMobile } from './isMobile';
 import {
   autoUpdate,
@@ -83,10 +83,8 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     whileElementsMounted: autoUpdate
   });
 
-  const dismiss = useDismiss(context);
-
   const role = useRole(context, { role: 'dialog' });
-
+  const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown' });
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
@@ -172,8 +170,7 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
           style={floatingStyles}
           onFocus={handleFloatingFocus}
           onBlur={handleFloatingBlur}
-          {...getFloatingProps()}
-          {...getStopEventsPropagationProps()}>
+          {...getFloatingProps(getStopEventsPropagationProps())}>
           {popup({
             annotation: selected[0].annotation,
             editable: selected[0].editable,
@@ -188,3 +185,14 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   ) : null;
 
 }
+
+/**
+ * Prevent text-annotator from handling the irrelevant events
+ * triggered from the popup/toolbar/dialog
+ */
+export const getStopEventsPropagationProps = <T extends HTMLElement = HTMLElement>() => ({
+  onPointerUp: (event: PointerEvent<T>) => event.stopPropagation(),
+  onPointerDown: (event: PointerEvent<T>) => event.stopPropagation(),
+  onMouseDown: (event: MouseEvent<T>) => event.stopPropagation(),
+  onMouseUp: (event: MouseEvent<T>) => event.stopPropagation()
+});
