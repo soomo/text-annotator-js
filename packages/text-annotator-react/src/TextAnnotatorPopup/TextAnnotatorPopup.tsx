@@ -16,10 +16,11 @@ import {
 
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
+  isRevived,
   denormalizeRectWithOffset,
   toDomRectList,
   type TextAnnotation,
-  type TextAnnotator,
+  type TextAnnotator
 } from '@soomo/text-annotator';
 
 import { useAnnouncePopupNavigation } from '../hooks';
@@ -89,15 +90,10 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
-    setOpen(
-      // Selected annotation exists and has a selector?
-      annotation?.target.selector &&
-      // Selector not empty? (Annotations from plugins, general defensive programming)
-      annotation.target.selector.length > 0 &&
-      // Range not collapsed? (E.g. lazy loading PDFs. Note that this will have to
-      // change if we switch from ranges to pre-computed bounds!)
-      !annotation.target.selector[0].range.collapsed
-    );
+    const annotationSelector = annotation?.target.selector;
+      if (!annotationSelector) return;
+
+    setOpen(isRevived(annotationSelector));
   }, [annotation]);
 
   useEffect(() => {
