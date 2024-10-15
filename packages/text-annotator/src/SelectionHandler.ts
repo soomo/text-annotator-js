@@ -232,7 +232,7 @@ export const createSelectionHandler = (
     const timeDifference = evt.timeStamp - lastDownEvent.timeStamp;
 
       /**
-     * We must check the `isCollapsed` within the 0-timeout
+     * We must check the `isCollapsed` within the 1-timeout
      * to handle the annotation dismissal after a click properly.
      *
      * Otherwise, the `isCollapsed` will return an obsolete `false` value,
@@ -252,7 +252,7 @@ export const createSelectionHandler = (
         upsertCurrentTarget();
         selection.userSelect(currentTarget.annotation, clonePointerEvent(evt));
       }
-    });
+    }, 1);
   }
 
   const onContextMenu = (evt: PointerEvent) => {
