@@ -84,8 +84,10 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     whileElementsMounted: autoUpdate
   });
 
+  const dismiss = useDismiss(context);
+
   const role = useRole(context, { role: 'dialog' });
-  const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown' });
+
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
