@@ -69,10 +69,9 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { refs, floatingStyles, update, context } = useFloating({
     placement: isMobile() ? 'bottom' : 'top',
     open: isOpen,
-    onOpenChange: (open) => {
-      setOpen(open);
-
-      if (!open) {
+    onOpenChange: (open, _event, reason) => {
+      if (!open && (reason === 'escape-key' || reason === 'focus-out')) {
+        setOpen(open);
         handleClose();
       }
     },
@@ -146,12 +145,6 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     floatingOpen: isOpen,
     message: ariaNavigationMessage,
   });
-
-  // Prevent text-annotator from handling the irrelevant events triggered from the popup
-  const getStopEventsPropagationProps = useCallback(
-    () => ({ onPointerUp: (event: PointerEvent<HTMLDivElement>) => event.stopPropagation() }),
-    []
-  );
 
   return isOpen && annotation ? (
     <FloatingPortal>
