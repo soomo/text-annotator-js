@@ -282,7 +282,7 @@ export const createSelectionHandler = (
     let isCollapsed = sel?.isCollapsed;
     const shouldStopPolling = () => isCollapsed || stopPolling;
 
-    const pollingDelayMs = 10;
+    const pollingDelayMs = 1;
     const stopPollingInMs = 50;
     setTimeout(() => stopPolling = true, stopPollingInMs);
 
