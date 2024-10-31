@@ -51,8 +51,6 @@ export const createSelectionHandler = (
 
   let lastDownEvent: Selection['event'] | undefined;
 
-  let isContextMenuOpen = false;
-
   let currentAnnotatingEnabled = true;
 
   const setAnnotatingEnabled = (enabled: boolean) => {
@@ -62,16 +60,12 @@ export const createSelectionHandler = (
     if (!enabled) {
       currentTarget = undefined;
       lastDownEvent = undefined;
-      isContextMenuOpen = false;
     }
   };
 
   const onSelectStart = (evt: Event) => {
-    if (!currentAnnotatingEnabled) return;
-
-    isContextMenuOpen = false;
-
-    if (isLeftClick === false) return;
+    if (isLeftClick === false)
+      return;
 
     /**
      * Make sure we don't listen to selection changes that were
@@ -194,8 +188,6 @@ export const createSelectionHandler = (
    * to the initial pointerdown event and remember the button
    */
   const onPointerDown = (evt: PointerEvent) => {
-    if (isContextMenuOpen) return;
-
     if (isNotAnnotatable(evt.target as Node)) return;
 
     /**
@@ -221,8 +213,6 @@ export const createSelectionHandler = (
   }
 
   const onPointerUp = async (evt: PointerEvent) => {
-    if (isContextMenuOpen) return;
-
     if (isNotAnnotatable(evt.target as Node) || !isLeftClick) return;
 
     // Logic for selecting an existing annotation
@@ -290,8 +280,6 @@ export const createSelectionHandler = (
   }
 
   const onContextMenu = (evt: PointerEvent) => {
-    isContextMenuOpen = true;
-
     const sel = document.getSelection();
 
     if (sel?.isCollapsed) return;
@@ -392,7 +380,6 @@ export const createSelectionHandler = (
     currentTarget = undefined;
     isLeftClick = undefined;
     lastDownEvent = undefined;
-    isContextMenuOpen = false;
 
     onSelectionChange.clear();
 
