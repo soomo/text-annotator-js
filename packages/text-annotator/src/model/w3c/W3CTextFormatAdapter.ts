@@ -7,7 +7,7 @@ import {
   serializeW3CBodies
 } from '@annotorious/core';
 import type { TextAnnotation, TextAnnotationTarget, TextSelector } from '../core';
-import type { W3CTextAnnotation, W3CTextSelector } from '../w3c';
+import type { W3CTextAnnotation, W3CTextAnnotationTarget, W3CTextSelector } from '../w3c';
 import { getQuoteContext } from '../../utils';
 
 export type W3CTextFormatAdapter = FormatAdapter<TextAnnotation, W3CTextAnnotation>;
@@ -48,7 +48,8 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
     updated: modified ? new Date(modified) : undefined,
     annotation: annotationId,
     selector: [],
-    styleClass: w3cTargets[0].styleClass
+    // @ts-expect-error: `styleClass` is not part of the core `TextAnnotationTarget` type
+    styleClass: 'styleClass' in w3cTargets[0] ? w3cTargets[0].styleClass : undefined
   };
 
   for (const w3cTarget of w3cTargets) {
@@ -68,11 +69,14 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
     }, {});
 
     if (isTextSelector(selector)) {
-      parsed.selector.push({
-        ...selector,
-        id: w3cTarget.id,
-        scope: w3cTarget.scope
-      });
+      parsed.selector.push(
+        {
+          ...selector,
+          id: w3cTarget.id,
+          // @ts-expect-error: `scope` is not part of the core `TextSelector` type
+          scope: w3cTarget.scope
+        }
+      );
     } else {
       const missingTypes = [
         !selector.start ? 'TextPositionSelector' : undefined,
@@ -130,8 +134,8 @@ export const serializeW3CTextAnnotation = (
     ...targetRest
   } = target;
 
-  const w3cTargets = selector.map((s) => {
-    const { id, scope, quote, start, end, range } = s;
+  const w3cTargets = selector.map((s): W3CTextAnnotationTarget => {
+    const { id, quote, start, end, range } = s;
 
     const { prefix, suffix } = getQuoteContext(range, container);
 
@@ -149,7 +153,8 @@ export const serializeW3CTextAnnotation = (
     return {
       ...targetRest,
       id,
-      scope,
+      // @ts-expect-error: `scope` is not part of the core `TextAnnotationTarget` type
+      scope: 'scope' in s ? s.scope : undefined,
       source,
       selector: w3cSelectors
     };

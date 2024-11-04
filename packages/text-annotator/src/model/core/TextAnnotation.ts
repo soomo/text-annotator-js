@@ -10,8 +10,6 @@ export interface TextAnnotationTarget extends AnnotationTarget {
 
   selector: TextSelector[];
 
-  styleClass?: string;
-
 }
 
 export interface TextSelector {
@@ -27,7 +25,5 @@ export interface TextSelector {
   range: Range;
 
   offsetReference?: HTMLElement;
-
-  scope?: string;
 
 }

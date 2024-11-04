@@ -92,9 +92,7 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
 
   useEffect(() => {
     const annotationSelector = annotation?.target.selector;
-      if (!annotationSelector) return;
-
-    setOpen(isRevived(annotationSelector));
+      setOpen(annotationSelector?.length > 0 ? isRevived(annotationSelector) : false);
   }, [annotation]);
 
   useEffect(() => {
