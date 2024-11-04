@@ -23,6 +23,8 @@ import {
   useRole
 } from '@floating-ui/react';
 
+import { isMobile } from './isMobile';
+import { useAnnouncePopupNavigation } from '../hooks';
 
 import './TextAnnotatorPopup.css';
 
