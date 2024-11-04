@@ -1,5 +1,14 @@
 import { FC, PointerEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-import { isMobile } from './isMobile';
+
+import { useAnnotator, useSelection } from '@annotorious/react';
+import {
+  isRevived,
+  denormalizeRectWithOffset,
+  toDomRectList,
+  type TextAnnotation,
+  type TextAnnotator
+} from '@soomo/text-annotator';
+
 import {
   autoUpdate,
   flip,
@@ -14,16 +23,7 @@ import {
   useRole
 } from '@floating-ui/react';
 
-import { useAnnotator, useSelection } from '@annotorious/react';
-import {
-  isRevived,
-  denormalizeRectWithOffset,
-  toDomRectList,
-  type TextAnnotation,
-  type TextAnnotator
-} from '@soomo/text-annotator';
 
-import { useAnnouncePopupNavigation } from '../hooks';
 import './TextAnnotatorPopup.css';
 
 interface TextAnnotationPopupProps {
