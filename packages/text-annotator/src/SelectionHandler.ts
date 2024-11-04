@@ -217,7 +217,7 @@ export const createSelectionHandler = (
     if (isNotAnnotatable(evt.target as Node) || !isLeftClick) return;
 
     // Logic for selecting an existing annotation
-    const userSelect = () => {
+    const clickSelect = () => {
       const { x, y } = container.getBoundingClientRect();
 
       const hovered =
@@ -244,7 +244,7 @@ export const createSelectionHandler = (
       const sel = document.getSelection();
       if (sel?.isCollapsed) {
         currentTarget = undefined;
-        userSelect();
+        clickSelect();
         return;
       }
     }
