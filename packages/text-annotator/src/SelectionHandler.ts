@@ -59,6 +59,7 @@ export const createSelectionHandler = (
 
     if (!enabled) {
       currentTarget = undefined;
+      isLeftClick = undefined;
       lastDownEvent = undefined;
     }
   };
