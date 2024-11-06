@@ -1,4 +1,4 @@
-import { FC, PointerEvent, MouseEvent, ReactNode, useEffect, useMemo, useState } from 'react';
+import { FC, PointerEvent, MouseEvent, ReactNode, useEffect, useMemo, useState, useCallback } from 'react';
 
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
