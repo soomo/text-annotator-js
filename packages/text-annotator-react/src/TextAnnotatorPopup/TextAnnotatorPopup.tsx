@@ -1,4 +1,4 @@
-import { FC, PointerEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, PointerEvent, MouseEvent, ReactNode, useEffect, useMemo, useState } from 'react';
 
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
@@ -188,7 +188,7 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
  * Prevent text-annotator from handling the irrelevant events
  * triggered from the popup/toolbar/dialog
  */
-export const getStopEventsPropagationProps = <T extends HTMLElement = HTMLElement>() => ({
+const getStopEventsPropagationProps = <T extends HTMLElement = HTMLElement>() => ({
   onPointerUp: (event: PointerEvent<T>) => event.stopPropagation(),
   onPointerDown: (event: PointerEvent<T>) => event.stopPropagation(),
   onMouseDown: (event: MouseEvent<T>) => event.stopPropagation(),
