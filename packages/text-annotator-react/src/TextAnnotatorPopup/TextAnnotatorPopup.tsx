@@ -1,10 +1,10 @@
 import { FC, PointerEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
-
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
   isRevived,
   denormalizeRectWithOffset,
   toDomRectList,
+  NOT_ANNOTATABLE_CLASS,
   type TextAnnotation,
   type TextAnnotator
 } from '@soomo/text-annotator';
@@ -24,7 +24,7 @@ import {
 } from '@floating-ui/react';
 
 import { isMobile } from './isMobile';
-import { useAnnouncePopupNavigation } from '../hooks';
+import { useAnnouncePopupNavigation, useAnnotationTargetIdling } from '../hooks';
 
 import './TextAnnotatorPopup.css';
 
@@ -55,8 +55,9 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
   const r = useAnnotator<TextAnnotator>();
 
   const { selected, event } = useSelection<TextAnnotation>();
-
   const annotation = selected[0]?.annotation;
+
+  const isAnnotationIdling = useAnnotationTargetIdling(annotation?.id);
 
   const [isOpen, setOpen] = useState(selected?.length > 0);
   const handleClose = () => r?.cancelSelected();
@@ -94,8 +95,8 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
 
   useEffect(() => {
     const annotationSelector = annotation?.target.selector;
-      setOpen(annotationSelector?.length > 0 ? isRevived(annotationSelector) : false);
-  }, [annotation]);
+      setOpen(isAnnotationIdling && annotationSelector?.length > 0 ? isRevived(annotationSelector) : false);
+  }, [annotation?.target?.selector, isAnnotationIdling]);
 
   useEffect(() => {
     if (!r) return;
@@ -159,7 +160,7 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
         returnFocus={false}
         initialFocus={initialFocus}>
         <div
-          className="a9s-popup r6o-popup annotation-popup r6o-text-popup not-annotatable"
+          className={`a9s-popup r6o-popup annotation-popup r6o-text-popup ${NOT_ANNOTATABLE_CLASS}`}
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps({
@@ -180,7 +181,7 @@ export const TextAnnotatorPopup: FC<TextAnnotationPopupProps> = (props) => {
     </FloatingPortal>
   ) : null;
 
-}
+};
 
 /**
  * Prevent text-annotator from handling the irrelevant events
