@@ -1,4 +1,5 @@
 import { FC, PointerEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
   isRevived,
