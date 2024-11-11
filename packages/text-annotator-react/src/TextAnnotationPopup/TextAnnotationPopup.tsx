@@ -1,5 +1,4 @@
 import React, { FC, ReactNode, useCallback, useRef, useEffect, useMemo, useState } from 'react';
-
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
   isRevived,
@@ -9,7 +8,6 @@ import {
   type TextAnnotation,
   type TextAnnotator
 } from '@soomo/text-annotator';
-
 import {
   arrow,
   autoUpdate,
@@ -106,7 +104,7 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
 
   useEffect(() => {
     const annotationSelector = annotation?.target.selector;
-      setOpen(isAnnotationIdling && annotationSelector?.length > 0 ? isRevived(annotationSelector) : false);
+    setOpen(isAnnotationIdling && annotationSelector?.length > 0 ? isRevived(annotationSelector) : false);
   }, [annotation?.target?.selector, isAnnotationIdling]);
 
   useEffect(() => {
