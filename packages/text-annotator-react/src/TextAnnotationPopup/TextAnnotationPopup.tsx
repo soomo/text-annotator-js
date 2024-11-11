@@ -1,4 +1,4 @@
-import { FC, PointerEvent, MouseEvent, ReactNode, useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import React, { FC, ReactNode, useCallback, useRef, useEffect, useMemo, useState } from 'react';
 
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
@@ -6,7 +6,6 @@ import {
   NOT_ANNOTATABLE_CLASS,
   denormalizeRectWithOffset,
   toDomRectList,
-  NOT_ANNOTATABLE_CLASS,
   type TextAnnotation,
   type TextAnnotator
 } from '@soomo/text-annotator';
