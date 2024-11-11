@@ -7,6 +7,7 @@ import { Origin, type Filter, type Selection, type User } from '@annotorious/cor
 
 import type { TextAnnotatorState } from './state';
 import type { TextAnnotation, TextAnnotationTarget } from './model';
+import type { TextAnnotatorOptions } from './TextAnnotatorOptions';
 import {
   clonePointerEvent,
   cloneKeyboardEvent,
@@ -17,7 +18,6 @@ import {
   trimRangeToContainer,
   isNotAnnotatable
 } from './utils';
-import type { TextAnnotatorOptions } from './TextAnnotatorOptions';
 
 const CLICK_TIMEOUT = 300;
 
