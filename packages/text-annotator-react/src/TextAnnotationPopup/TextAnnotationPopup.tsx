@@ -28,7 +28,7 @@ import {
 import { isMobile } from './isMobile';
 import { useAnnouncePopupNavigation, useAnnotationTargetIdling } from '../hooks';
 
-import './TextAnnotatorPopup.css';
+import './TextAnnotationPopup.css';
 
 interface TextAnnotationPopupProps {
 
