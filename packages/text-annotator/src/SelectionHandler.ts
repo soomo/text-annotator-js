@@ -54,7 +54,7 @@ export const createSelectionHandler = (
 
   let lastDownEvent: Selection['event'] | undefined;
 
-  let currentAnnotatingEnabled = true;
+  let currentAnnotatingEnabled = annotatingEnabled;
 
   const setAnnotatingEnabled = (enabled: boolean) => {
     currentAnnotatingEnabled = enabled;
