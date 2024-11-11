@@ -80,20 +80,6 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
 
   const arrowRef = useRef(null);
 
-  // Conditional floating-ui middleware
-  const middleware = useMemo(() => {
-    const m = [
-      inline(),
-      offset(10),
-      flip({ crossAxis: true }),
-      shift({ crossAxis: true, padding: 10 })
-    ];
-
-    return props.arrow
-      ? [...m, arrow({ element: arrowRef }) ]
-      : m;
-  }, [props.arrow]);
-
   const { refs, floatingStyles, update, context } = useFloating({
     placement: isMobile() ? 'bottom' : 'top',
     open: isOpen,
@@ -103,7 +89,13 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
         handleClose();
       }
     },
-    middleware,
+    middleware: [
+      inline(),
+      offset(10),
+      flip({ crossAxis: true }),
+      shift({ crossAxis: true, padding: 10 }),
+      arrow({ element: arrowRef })
+    ],
     whileElementsMounted: autoUpdate
   });
 
