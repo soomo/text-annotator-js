@@ -91,7 +91,7 @@ export const createTextAnnotator = <E extends unknown = TextAnnotation>(
   if (opts.style)
     highlightRenderer.setStyle(opts.style);
 
-  const selectionHandler = createSelectionHandler(container, state, opts.offsetReferenceSelector);
+  const selectionHandler = createSelectionHandler(container, state, opts);
   selectionHandler.setUser(currentUser);
   selectionHandler.setAnnotatingEnabled(opts.annotatingEnabled);
 

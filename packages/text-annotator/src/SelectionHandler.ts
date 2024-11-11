@@ -17,6 +17,7 @@ import {
   trimRangeToContainer,
   isNotAnnotatable
 } from './utils';
+import type { TextAnnotatorOptions } from './TextAnnotatorOptions';
 
 const CLICK_TIMEOUT = 300;
 
@@ -32,12 +33,14 @@ const SELECTION_KEYS = [
 export const createSelectionHandler = (
   container: HTMLElement,
   state: TextAnnotatorState<TextAnnotation, unknown>,
-  offsetReferenceSelector?: string
+  options: TextAnnotatorOptions<TextAnnotation, unknown>
 ) => {
 
   const { store, selection } = state;
 
   let currentUser: User | undefined;
+
+  const { annotatingEnabled, offsetReferenceSelector, selectionMode } = options;
 
   const setUser = (user?: User) => currentUser = user;
 
@@ -210,14 +213,20 @@ export const createSelectionHandler = (
       const hovered =
         evt.target instanceof Node &&
         container.contains(evt.target) &&
-        store.getAt(evt.clientX - x, evt.clientY - y, currentFilter);
+        store.getAt(evt.clientX - x, evt.clientY - y, selectionMode === 'all', currentFilter);
 
       if (hovered) {
         const { selected } = selection;
 
-        if (selected.length !== 1 || selected[0].id !== hovered.id) {
-          selection.userSelect(hovered.id, evt);
-        }
+        const currentIds = new Set(selected.map(s => s.id));
+        const nextIds = Array.isArray(hovered) ? hovered.map(a => a.id) : [hovered.id];
+
+        const hasChanged =
+          currentIds.size !== nextIds.length ||
+          !nextIds.every(id => currentIds.has(id));
+
+        if (hasChanged)
+          selection.userSelect(nextIds, evt);
       } else {
         selection.clear();
       }
@@ -373,7 +382,7 @@ export const createSelectionHandler = (
     const { target: { updated: existingTargetUpdated } } = existingAnnotation;
     const { updated: currentTargetUpdated } = currentTarget;
     if (
-      !existingAnnotation ||
+      !existingTargetUpdated ||
       !currentTargetUpdated ||
       existingTargetUpdated < currentTargetUpdated
     ) {
