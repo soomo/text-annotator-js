@@ -26,7 +26,7 @@ import {
 } from '@floating-ui/react';
 
 import { isMobile } from './isMobile';
-import { useAnnouncePopupNavigation, useAnnotationTargetIdling } from '../hooks';
+import { useAnnouncePopupNavigation, useAnnotationQuoteIdling } from '../hooks';
 
 import './TextAnnotationPopup.css';
 
@@ -63,7 +63,7 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { selected, event } = useSelection<TextAnnotation>();
   const annotation = selected[0]?.annotation;
 
-  const isAnnotationIdling = useAnnotationTargetIdling(annotation?.id);
+  const isAnnotationQuoteIdling = useAnnotationQuoteIdling(annotation?.id);
 
   const [isOpen, setOpen] = useState(selected?.length > 0);
   const handleClose = () => r?.cancelSelected();
@@ -103,13 +103,13 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
-    if (annotation?.id) {
+    if (annotation?.id && !isAnnotationQuoteIdling) {
       const bounds = r?.state.store.getAnnotationBounds(annotation.id);
       setOpen(Boolean(bounds));
     } else {
       setOpen(false);
     }
-  }, [annotation?.id, r?.state.store]);
+  }, [annotation?.id, r?.state.store, isAnnotationQuoteIdling]);
 
   useEffect(() => {
     if (!r) return;
