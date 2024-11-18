@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useCallback, useRef, useEffect, useMemo, useState } from 'react';
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
-  isRevived,
   NOT_ANNOTATABLE_CLASS,
   denormalizeRectWithOffset,
   toDomRectList,
