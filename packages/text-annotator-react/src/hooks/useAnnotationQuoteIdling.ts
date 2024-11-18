@@ -62,5 +62,5 @@ const hasTargetQuoteChanged = (oldValue: TextAnnotationTarget, newValue: TextAnn
   const { selector: newSelector } = newValue;
   const newQuotes = newSelector.map(({ quote }) => quote);
 
-  return dequal(oldQuotes, newQuotes);
+  return !dequal(oldQuotes, newQuotes);
 };
