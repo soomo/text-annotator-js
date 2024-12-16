@@ -91,13 +91,18 @@ export const TextAnnotationPopup = (props: TextAnnotationPopupProps) => {
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
-    if (annotation?.id && isAnnotationQuoteIdling) {
-      const bounds = r?.state.store.getAnnotationBounds(annotation.id);
+    if (!r) return;
+
+    const annotationId = annotation?.id;
+    const annotationSelectorsLength = annotation?.target.selector.length;
+
+    if (annotationId && annotationSelectorsLength > 0 && isAnnotationQuoteIdling) {
+      const bounds = r.state.store.getAnnotationBounds(annotation.id);
       setOpen(Boolean(bounds));
     } else {
       setOpen(false);
     }
-  }, [annotation?.id, isAnnotationQuoteIdling, r?.state.store]);
+  }, [annotation?.id, annotation?.target.selector, isAnnotationQuoteIdling, r?.state.store]);
 
   useEffect(() => {
     if (!r) return;
