@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 
 import { Origin, useAnnotationStore, useSelection } from '@annotorious/react';
-import type { TextAnnotation } from '@recogito/text-annotator';
+import type { TextAnnotation } from '@soomo/text-annotator';
 import { announce, destroyAnnouncer } from '@react-aria/live-announcer';
 import { exhaustiveUniqueRandom } from 'unique-random';
 

@@ -6,7 +6,7 @@ import {
   toDomRectList,
   type TextAnnotation,
   type TextAnnotator,
-} from '@recogito/text-annotator';
+} from '@soomo/text-annotator';
 
 import {
   arrow,

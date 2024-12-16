@@ -3,7 +3,7 @@ import { dequal } from 'dequal/lite';
 
 import { Origin, useAnnotationStore } from '@annotorious/react';
 import { Ignore, type StoreChangeEvent } from '@annotorious/core';
-import type { TextAnnotation, TextAnnotationStore, TextAnnotationTarget } from '@recogito/text-annotator';
+import type { TextAnnotation, TextAnnotationStore, TextAnnotationTarget } from '@soomo/text-annotator';
 
 export const useAnnotationQuoteIdling = (
   annotationId: string | undefined,

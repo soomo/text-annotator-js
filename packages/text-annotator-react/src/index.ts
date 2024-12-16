@@ -55,7 +55,7 @@ export type {
 
 export {
   W3CTextFormat
-} from '@recogito/text-annotator';
+} from '@soomo/text-annotator';
 
 export type {
   RecogitoTEIAnnotator,
