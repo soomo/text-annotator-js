@@ -7,7 +7,7 @@ import {
   isRevived,
   reviveSelector,
   mergeClientRects,
-  normalizeRectWithOffset
+  toParentBounds
 } from '../utils';
 import type { AnnotationRects } from './TextAnnotationStore';
 
@@ -56,7 +56,7 @@ export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, con
      * Offset the merged client rects so that coords
      * are relative to the parent container
      */
-    const merged = mergeClientRects(rects).map(rect => normalizeRectWithOffset(rect, offset));
+    const merged = mergeClientRects(rects).map(rect => toParentBounds(rect, offset));
 
     return merged.map(rect => {
       const { x, y, width, height } = rect;
@@ -83,6 +83,8 @@ export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, con
 
   const insert = (target: TextAnnotationTarget) => {
     const rects = toItems(target, container.getBoundingClientRect());
+    if (rects.length === 0) return;
+
     rects.forEach(rect => tree.insert(rect));
     index.set(target.annotation, rects);
   }
@@ -107,7 +109,10 @@ export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, con
     const offset = container.getBoundingClientRect();
 
     const rectsByTarget = targets.map(target => ({ target, rects: toItems(target, offset) }));
-    rectsByTarget.forEach(({ target, rects }) => index.set(target.annotation, rects));
+    rectsByTarget.forEach(({ target, rects }) => {
+      if (rects.length > 0)
+        index.set(target.annotation, rects)
+    });
 
     const allRects = rectsByTarget.flatMap(({ rects }) => rects);
     tree.load(allRects);
@@ -159,7 +164,7 @@ export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, con
 
   const getAnnotationRects = (id: string): DOMRect[] => {
     const indexed = index.get(id);
-    if (indexed[0]) {
+    if (indexed) {
       // Reminder: *each* IndexedHighlightRect stores *all*
       // DOMRects for the annotation for convenience
       return indexed[0].annotation.rects;

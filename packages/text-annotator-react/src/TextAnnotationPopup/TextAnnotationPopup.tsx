@@ -2,11 +2,12 @@ import React, { FC, ReactNode, useCallback, useRef, useEffect, useMemo, useState
 import { useAnnotator, useSelection } from '@annotorious/react';
 import {
   NOT_ANNOTATABLE_CLASS,
-  denormalizeRectWithOffset,
+  toViewportBounds,
   toDomRectList,
   type TextAnnotation,
-  type TextAnnotator
-} from '@soomo/text-annotator';
+  type TextAnnotator,
+} from '@recogito/text-annotator';
+
 import {
   arrow,
   autoUpdate,
@@ -102,13 +103,18 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
   const { getFloatingProps } = useInteractions([dismiss, role]);
 
   useEffect(() => {
-    if (annotation?.id && !isAnnotationQuoteIdling) {
-      const bounds = r?.state.store.getAnnotationBounds(annotation.id);
+    if (!r) return;
+
+    const annotationId = annotation?.id;
+    const annotationSelectorsLength = annotation?.target.selector.length;
+
+    if (annotationId && annotationSelectorsLength > 0 && isAnnotationQuoteIdling) {
+      const bounds = r.state.store.getAnnotationBounds(annotation.id);
       setOpen(Boolean(bounds));
     } else {
       setOpen(false);
     }
-  }, [annotation?.id, r?.state.store, isAnnotationQuoteIdling]);
+  }, [annotation?.id, annotation?.target.selector, isAnnotationQuoteIdling, r?.state.store]);
 
   useEffect(() => {
     if (!r) return;
@@ -118,13 +124,13 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
         getBoundingClientRect: () => {
           const bounds = r.state.store.getAnnotationBounds(annotation.id);
           return bounds
-            ? denormalizeRectWithOffset(bounds, r.element.getBoundingClientRect())
+            ? toViewportBounds(bounds, r.element.getBoundingClientRect())
             : new DOMRect();
         },
         getClientRects: () => {
           const rects = r.state.store.getAnnotationRects(annotation.id);
           const denormalizedRects = rects.map((rect) =>
-            denormalizeRectWithOffset(rect, r.element.getBoundingClientRect())
+            toViewportBounds(rect, r.element.getBoundingClientRect())
           );
           return toDomRectList(denormalizedRects);
         }
