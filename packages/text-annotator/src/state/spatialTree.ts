@@ -3,7 +3,12 @@ import type { Store } from '@annotorious/core';
 import { createNanoEvents, type Unsubscribe } from 'nanoevents';
 
 import type { TextAnnotation, TextAnnotationTarget } from '../model';
-import { isRevived, reviveSelector, mergeClientRects } from '../utils';
+import {
+  isRevived,
+  reviveSelector,
+  mergeClientRects,
+  toParentBounds
+} from '../utils';
 import type { AnnotationRects } from './TextAnnotationStore';
 
 interface IndexedHighlightRect {
@@ -47,11 +52,11 @@ export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, con
       return Array.from(revivedRange.getClientRects());
     });
 
-    const merged = mergeClientRects(rects)
-      // Offset the merged client rects so that coords
-      // are relative to the parent container
-      .map(({ left, top, right, bottom }) =>  
-        new DOMRect(left - offset.left, top - offset.top, right - left, bottom - top));
+    /**
+     * Offset the merged client rects so that coords
+     * are relative to the parent container
+     */
+    const merged = mergeClientRects(rects).map(rect => toParentBounds(rect, offset));
 
     return merged.map(rect => {
       const { x, y, width, height } = rect;
