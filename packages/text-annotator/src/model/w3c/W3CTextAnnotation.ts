@@ -1,15 +1,12 @@
-import type { W3CAnnotation, W3CAnnotationTarget } from '@annotorious/core';
+import type { W3CAnnotation, W3CAnnotationTarget } from "@annotorious/core";
 
 export interface W3CTextAnnotation extends W3CAnnotation {
-
   target: W3CTextAnnotationTarget | W3CTextAnnotationTarget[];
 
   stylesheet?: W3CAnnotationStylesheet;
-
 }
 
 export interface W3CTextAnnotationTarget extends W3CAnnotationTarget {
-
   selector: W3CTextSelector | W3CTextSelector[];
 
   outdated?: boolean;
@@ -24,15 +21,13 @@ export interface W3CTextAnnotationTarget extends W3CAnnotationTarget {
  * @see https://www.w3.org/TR/annotation-model/#text-quote-selector
  */
 export interface W3CTextQuoteSelector {
-
-  type: 'TextQuoteSelector';
+  type: "TextQuoteSelector";
 
   exact: string;
 
   prefix?: string;
 
   suffix?: string;
-
 }
 
 /**
@@ -40,18 +35,18 @@ export interface W3CTextQuoteSelector {
  * @see https://www.w3.org/TR/annotation-model/#text-position-selector
  */
 export interface W3CTextPositionSelector {
-
-  type: 'TextPositionSelector';
+  type: "TextPositionSelector";
 
   start: number;
 
   end: number;
-
 }
 
 export type W3CTextSelector = W3CTextQuoteSelector | W3CTextPositionSelector;
 
-export type W3CAnnotationStylesheet = string | {
-  type: 'CssStylesheet',
-  value: string
-}
+export type W3CAnnotationStylesheet =
+  | string
+  | {
+      type: "CssStylesheet";
+      value: string;
+    };

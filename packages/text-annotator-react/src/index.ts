@@ -1,6 +1,6 @@
 export * from './tei';
 export * from './TextAnnotator';
-export * from './TextAnnotatorPopup';
+export * from './TextAnnotationPopup';
 export * from './TextAnnotatorPlugin';
 
 // Essential re-exports from @annotorious/core
@@ -21,6 +21,7 @@ export type {
   StoreObserver,
   ParseResult,
   User,
+  UserSelectActionExpression,
   W3CAnnotation,
   W3CAnnotationBody,
   W3CAnnotationTarget
@@ -29,7 +30,7 @@ export type {
 export {
   createBody,
   Origin,
-  PointerSelectAction
+  UserSelectAction
 } from '@annotorious/core';
 
 // Essential re-exports from @annotorious/react

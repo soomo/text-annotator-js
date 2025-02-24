@@ -1,14 +1,8 @@
 import RBush from 'rbush';
 import type { Store } from '@annotorious/core';
 import type { TextAnnotation, TextAnnotationTarget } from '../model';
-import { isRevived, mergeClientRects } from '../utils';
-import { getClientRectsPonyfill } from '../utils/getClientRectsPonyfill';
-import { reviveSelector } from '../utils';
+import { isRevived, reviveSelector, mergeClientRects } from '../utils';
 import type { AnnotationRects } from './TextAnnotationStore';
-
-const isFirefox = false; // navigator.userAgent.match(/firefox|fxios/i);
-
-if (isFirefox) console.warn('Firefox interop enabled');
 
 interface IndexedHighlightRect {
 
@@ -30,7 +24,7 @@ interface IndexedHighlightRect {
 
 }
 
-export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLElement) => {
+export const createSpatialTree = <T extends TextAnnotation>(store: Store<T>, container: HTMLElement) => {
 
   const tree = new RBush<IndexedHighlightRect>();
 
@@ -40,9 +34,7 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
   const toItems = (target: TextAnnotationTarget, offset: DOMRect): IndexedHighlightRect[] => {
     const rects = target.selector.flatMap(s => {
       const revivedRange = isRevived([s]) ? s.range : reviveSelector(s, container).range;
-      return isFirefox ?
-        getClientRectsPonyfill(revivedRange) :
-        Array.from(revivedRange.getClientRects());
+      return Array.from(revivedRange.getClientRects());
     });
 
     const merged = mergeClientRects(rects)
@@ -76,6 +68,7 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
 
   const insert = (target: TextAnnotationTarget) => {
     const rects = toItems(target, container.getBoundingClientRect());
+    if (rects.length === 0) return;
 
     rects.forEach(rect => tree.insert(rect));
     index.set(target.annotation, rects);
@@ -101,7 +94,10 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
     const offset = container.getBoundingClientRect();
 
     const rectsByTarget = targets.map(target => ({ target, rects: toItems(target, offset) }));
-    rectsByTarget.forEach(({ target, rects }) => index.set(target.annotation, rects));
+    rectsByTarget.forEach(({ target, rects }) => {
+      if (rects.length > 0)
+        index.set(target.annotation, rects)
+    });
 
     const allRects = rectsByTarget.flatMap(({ rects }) => rects);
     tree.load(allRects);
@@ -167,7 +163,7 @@ export const createSpatialTree = (store: Store<TextAnnotation>, container: HTMLE
     minY: number, 
     maxX: number, 
     maxY: number,
-  ): AnnotationRects[] => {
+  ): AnnotationRects<T>[] => {
     // All rects in this area, regardless of annotation
     const rects = tree.search({ minX, minY, maxX, maxY });
 

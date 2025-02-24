@@ -1,5 +1,5 @@
 import type { TextSelector } from '../model';
-import { NOT_ANNOTATABLE_SELECTOR } from './splitAnnotatableRanges';
+import { NOT_ANNOTATABLE_SELECTOR } from './isNotAnnotatable';
 
 /**
  * Creates a new selector object with the revived DOM range from the given text annotation position
@@ -10,7 +10,7 @@ import { NOT_ANNOTATABLE_SELECTOR } from './splitAnnotatableRanges';
  *
  * @returns the revived selector
  */
-export const reviveSelector = (selector: TextSelector, container: HTMLElement): TextSelector => {
+export const reviveSelector = <T extends TextSelector>(selector: T, container: HTMLElement): T => {
 
   const { start, end } = selector;
 
