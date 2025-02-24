@@ -69,13 +69,14 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
     }, {});
 
     if (isTextSelector(selector)) {
-      parsed.outdated = w3cTarget.outdated;
+      // @ts-expect-error: `outdated` is not part of the core `TextSelector` type
+      outdated: 'outdated' in w3cTarget ? w3cTarget.outdated : undefined
       parsed.selector.push(
         {
           ...selector,
           id: w3cTarget.id,
           // @ts-expect-error: `scope` is not part of the core `TextSelector` type
-          scope: w3cTarget.scope
+          scope: w3cTarget.scope,
         }
       );
     } else {
@@ -156,6 +157,8 @@ export const serializeW3CTextAnnotation = <I extends TextAnnotation = TextAnnota
     return {
       ...targetRest,
       id,
+      // @ts-expect-error: `outdated` is not part of the core `TextSelector` type
+      outdated: 'outdated' in s ? s.outdated : undefined,
       // @ts-expect-error: `scope` is not part of the core `TextSelector` type
       scope: 'scope' in s ? s.scope : undefined,
       source,
