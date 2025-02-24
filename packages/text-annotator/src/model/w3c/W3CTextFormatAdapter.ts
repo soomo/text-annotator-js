@@ -69,7 +69,6 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
     }, {});
 
     if (isTextSelector(selector)) {
-      // @ts-expect-error: `outdated` is not part of the core `TextSelector` type
       outdated: 'outdated' in w3cTarget ? w3cTarget.outdated : undefined
       parsed.selector.push(
         {
