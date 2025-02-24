@@ -12,6 +12,8 @@ export interface W3CTextAnnotationTarget extends W3CAnnotationTarget {
 
   selector: W3CTextSelector | W3CTextSelector[];
 
+  outdated?: boolean;
+
   styleClass?: string;
 
   scope?: string;
