@@ -8,8 +8,6 @@ export interface TextAnnotation extends Annotation {
 
 export interface TextAnnotationTarget extends AnnotationTarget {
 
-  outdated?: boolean;
-
   selector: TextSelector[];
 
 }
@@ -27,6 +25,4 @@ export interface TextSelector {
   range: Range;
 
   offsetReference?: HTMLElement;
-
-  scope?: string;
 }
