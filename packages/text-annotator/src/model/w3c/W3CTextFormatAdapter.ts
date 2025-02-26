@@ -157,8 +157,6 @@ export const serializeW3CTextAnnotation = <I extends TextAnnotation = TextAnnota
     return {
       ...targetRest,
       id,
-      // @ts-expect-error: `outdated` is not part of the core `TextSelector` type
-      outdated: 'outdated' in s ? s.outdated : undefined,
       // @ts-expect-error: `scope` is not part of the core `TextSelector` type
       scope: 'scope' in s ? s.scope : undefined,
       source,
