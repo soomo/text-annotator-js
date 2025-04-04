@@ -42,7 +42,7 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
     return { error: Error(`No targets found for annotation: ${annotation.id}`) };
   }
 
-  const parsed: TextAnnotationTarget & {outdated?: boolean} = {
+  const parsed: TextAnnotationTarget = {
     creator: parseW3CUser(creator),
     created: created ? new Date(created) : undefined,
     updated: modified ? new Date(modified) : undefined,
@@ -68,6 +68,7 @@ const parseW3CTextTargets = (annotation: W3CTextAnnotation) => {
       return s;
     }, {});
 
+    // @ts-expect-error: `outdated` is not part of the core `TextAnnotationTarget` type
     parsed.outdated ||= "outdated" in w3cTarget ? w3cTarget.outdated : undefined;
 
     if (isTextSelector(selector)) {
