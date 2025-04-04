@@ -54,12 +54,21 @@ export type {
 } from '@soomo/text-annotator';
 
 export {
-  W3CTextFormat
+  W3CTextFormat,
+  parseW3CTextAnnotation,
+  serializeW3CTextAnnotation
 } from '@soomo/text-annotator';
 
 export type {
   RecogitoTEIAnnotator,
   TEIAnnotation,
   TEIAnnotationTarget,
-  TEIRangeSelector
+  TEIRangeSelector,
+  W3CTEIAnnotation,
+  W3CTEIAnnotationTarget,
+  W3CTEIRangeSelector
+} from '@recogito/text-annotator-tei';
+
+export {
+  serializeW3CTEIAnnotation
 } from '@recogito/text-annotator-tei';

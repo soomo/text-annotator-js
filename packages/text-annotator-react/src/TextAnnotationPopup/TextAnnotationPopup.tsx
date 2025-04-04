@@ -180,13 +180,8 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
         <div
           className={`a9s-popup r6o-popup annotation-popup r6o-text-popup ${NOT_ANNOTATABLE_CLASS}`}
           ref={refs.setFloating}
-          style={floatingStyles}
-          {...getFloatingProps({
-            onFocus: handleFocus,
-            onBlur: handleBlur,
-            ...getStopEventsPropagationProps()
-          })}>
-          {popup({
+          style={floatingStyles}>
+          {props.popup({
             annotation: selected[0].annotation,
             editable: selected[0].editable,
             event
@@ -211,13 +206,14 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
 /**
  * Prevent text-annotator from handling the irrelevant events
  * triggered from the popup/toolbar/dialog
- */
+ *
 const getStopEventsPropagationProps = <T extends HTMLElement = HTMLElement>() => ({
   onPointerUp: (event: React.PointerEvent<T>) => event.stopPropagation(),
   onPointerDown: (event: React.PointerEvent<T>) => event.stopPropagation(),
   onMouseDown: (event: React.MouseEvent<T>) => event.stopPropagation(),
   onMouseUp: (event: React.MouseEvent<T>) => event.stopPropagation()
 });
+*/
 
 /** For backwards compatibility **/
 /** @deprecated Use TextAnnotationPopup instead */
