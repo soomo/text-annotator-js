@@ -15,4 +15,3 @@ export * from './trimRangeToContainer';
 export * from './cloneEvents';
 export * from './rangeContains';
 export * from './rectsToBounds';
-
