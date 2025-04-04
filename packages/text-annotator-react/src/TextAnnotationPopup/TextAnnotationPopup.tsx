@@ -109,7 +109,7 @@ export const TextAnnotationPopup: FC<TextAnnotationPopupProps> = (props) => {
     const annotationSelectorsLength = annotation?.target.selector.length;
 
     if (annotationId && annotationSelectorsLength > 0 && isAnnotationQuoteIdling) {
-      const bounds = r.state.store.getAnnotationBounds(annotation.id);
+      const bounds = r?.state.store.getAnnotationBounds(annotation.id);
       setOpen(Boolean(bounds));
     } else {
       setOpen(false);
