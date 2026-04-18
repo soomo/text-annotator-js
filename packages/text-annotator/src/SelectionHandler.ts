@@ -17,6 +17,7 @@ import {
   isRangeWhitespaceOrEmpty,
   trimRangeToContainer,
   isNotAnnotatable,
+  NOT_ANNOTATABLE_SELECTOR,
   mergeRanges,
   isRangeAnnotatable
 } from './utils';
@@ -64,6 +65,25 @@ export const createSelectionHandler = (
   let isLeftClick: boolean | undefined;
 
   let lastDownEvent: Selection['event'] | undefined;
+
+  const NOT_ANNOTATABLE_ACTIVE_CLASS = 'r6o-not-annotatable-active';
+
+  const clearNotAnnotatableMarkers = () => {
+    container.querySelectorAll(`.${NOT_ANNOTATABLE_ACTIVE_CLASS}`).forEach(el => {
+      el.classList.remove(NOT_ANNOTATABLE_ACTIVE_CLASS);
+    });
+  };
+
+  const markNotAnnotatableElements = (ranges: Range[]) => {
+    clearNotAnnotatableMarkers();
+
+    const notAnnotatableElements = container.querySelectorAll(NOT_ANNOTATABLE_SELECTOR);
+    notAnnotatableElements.forEach(el => {
+      if (ranges.some(range => range.intersectsNode(el))) {
+        el.classList.add(NOT_ANNOTATABLE_ACTIVE_CLASS);
+      }
+    });
+  };
 
   const setAnnotatingEnabled = (enabled: boolean) => {
     currentAnnotatingEnabled = enabled;
@@ -138,7 +158,10 @@ export const createSelectionHandler = (
   };
 
   const onSelectionChange = debounce((evt: Event) => {
-    if (!currentAnnotatingEnabled) return;
+    if (!currentAnnotatingEnabled) {
+      clearNotAnnotatableMarkers();
+      return;
+    }
 
     const sel = document.getSelection();
 
@@ -151,7 +174,10 @@ export const createSelectionHandler = (
      *
      * @see https://github.com/recogito/text-annotator-js/pull/164#issuecomment-2416961473
      */
-    if (!sel?.anchorNode) return;
+    if (!sel?.anchorNode) {
+      clearNotAnnotatableMarkers();
+      return;
+    }
 
     const selectionRanges =
       Array.from(Array(sel.rangeCount).keys()).map(idx => sel.getRangeAt(idx));
@@ -162,6 +188,7 @@ export const createSelectionHandler = (
      * But rich text editors like Quill will do it!
      */
     if (selectionRanges.every(r => !isRangeAnnotatable(container, r))) {
+      clearNotAnnotatableMarkers();
       currentTarget = undefined;
       return;
     }
@@ -225,6 +252,8 @@ export const createSelectionHandler = (
 
     // The selection should be captured only within the annotatable container
     if (containedRanges.every(r => isRangeWhitespaceOrEmpty(r))) return;
+
+    markNotAnnotatableElements(containedRanges);
 
     const annotatableRanges = containedRanges.flatMap(r => splitAnnotatableRanges(container, r.cloneRange()));
 
@@ -291,6 +320,8 @@ export const createSelectionHandler = (
 
   const onPointerUp = async (evt: PointerEvent) => {
     if (!isLeftClick) return;
+
+    clearNotAnnotatableMarkers();
 
     const lastUpEvent = clonePointerEvent(evt);
 
@@ -550,6 +581,8 @@ export const createSelectionHandler = (
   document.addEventListener('selectionchange', onSelectionChange);
 
   const destroy = () => {
+    clearNotAnnotatableMarkers();
+
     currentTarget = undefined;
     targetToModify = undefined;
     isLeftClick = undefined;

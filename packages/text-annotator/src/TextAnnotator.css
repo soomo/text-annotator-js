@@ -24,3 +24,9 @@ html, body {
 ::-moz-selection, ::-moz-selection {
   background: rgba(0, 128, 255, 0.18);
 }
+
+.r6o-annotatable .r6o-not-annotatable-active,
+.r6o-annotatable .r6o-not-annotatable-active * {
+  text-decoration: underline red;
+  text-decoration-thickness: 2px;
+}
